@@ -8,6 +8,8 @@
         <ResourceDictionary Source="ms-appx:///Styles/TextBlock.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <SolidColorBrush x:Key="SecondaryColor" Color="{ThemeResource SystemBaseMediumHighColor}" />
+
     <convertors:BoolToVisible x:Key="BoolToVisible" />
 
     <Style x:Key="ValidatorFeildTitle" TargetType="TextBlock">
@@ -18,7 +20,7 @@
     <Style x:Key="ValidatorRightNotice" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="{ThemeResource SmallLeftMargin}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemChromeAltLowColor}" />
+        <Setter Property="Foreground" Value="{StaticResource SecondaryColor}" />
     </Style>
 
     <Style x:Key="ValidatorComboBox" TargetType="ComboBox">

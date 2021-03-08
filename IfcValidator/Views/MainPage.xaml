@@ -20,7 +20,7 @@
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}" />
         </Grid>
-        <Grid Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
+        <Grid Background="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition Height="*" />

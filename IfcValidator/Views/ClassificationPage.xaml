@@ -107,6 +107,7 @@
                 <Button
                     Grid.Column="4"
                     Margin="{ThemeResource SmallLeftMargin}"
+                    Background="Transparent"
                     Click="RemoveSelectionButton_Click"
                     Content="Remove selected"
                     Visibility="{x:Bind ViewModel.HasSelection, Mode=TwoWay, Converter={StaticResource BoolToVisible}}" />

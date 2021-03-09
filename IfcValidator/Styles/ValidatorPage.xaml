@@ -68,4 +68,15 @@
         <Setter Property="Margin" Value="{ThemeResource SmallTopBottomMargin}" />
     </Style>
 
+    <Style x:Key="RightButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="{ThemeResource SmallLeftMargin}" />
+    </Style>
+
+    <Style x:Key="RightActionButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="15,3,15,5" />
+        <Setter Property="Margin" Value="{ThemeResource SmallLeftMargin}" />
+    </Style>
+
 </ResourceDictionary>

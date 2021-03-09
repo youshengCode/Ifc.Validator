@@ -1,10 +1,12 @@
-﻿using System;
+﻿using IfcValidator.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
 namespace IfcValidator.Helpers
 {
@@ -219,6 +221,56 @@ namespace IfcValidator.Helpers
                 return null;
             else
                 return value.ToString();
+        }
+    }
+
+    public class BoolToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            SolidColorBrush brush = new SolidColorBrush();
+            if ((bool)value)
+            {
+                return Step.ValidateBrush;
+            }
+            else
+            {
+                return Step.NonValidateBrush;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new Exception("Not Implemented");
+        }
+    }
+
+    public class BoolToOpacityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if ((bool)value)
+            {
+                double d = 1f;
+                return d;
+            }
+            else
+            {
+                double d = 0.7f;
+                return d;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            if ((double)value == 1f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -155,8 +155,12 @@
     <Compile Include="Services\StepServices.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\ClassificationPageViewModel.cs" />
+    <Compile Include="ViewModels\PropertyPageViewModel.cs" />
     <Compile Include="ViewModels\IfcValidatorPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\PropertyPage.xaml.cs">
+      <DependentUpon>PropertyPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ClassificationPage.xaml.cs">
       <DependentUpon>ClassificationPage.xaml</DependentUpon>
     </Compile>
@@ -208,6 +212,10 @@
     <Page Include="Styles\TextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PropertyPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ClassificationPage.xaml">
       <Generator>MSBuild:Compile</Generator>

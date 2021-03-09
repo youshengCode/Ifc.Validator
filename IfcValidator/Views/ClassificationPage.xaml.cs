@@ -12,7 +12,7 @@ namespace IfcValidator.Views
 {
     public sealed partial class ClassificationPage : Page
     {
-        private ClassificationPageViewModel ViewModel { get; set; } = new ClassificationPageViewModel();
+        public ClassificationPageViewModel ViewModel { get; set; } = new ClassificationPageViewModel();
 
         public ClassificationPage()
         {

@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="IfcValidator.Views.PropertyPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bsdd="using:IO.Swagger.Model"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:IfcValidator.Core.Models"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/ValidatorPage.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1">
+            <TextBlock Style="{StaticResource ValidatorFeildTitle}" Text="Properties" />
+        </StackPanel>
+        <Grid
+            Grid.Row="2"
+            BorderBrush="{ThemeResource TextControlBorderBrush}"
+            BorderThickness="1">
+            <muxc:TreeView
+                x:Name="propTreeView"
+                Margin="0,10,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                ItemsSource="{x:Bind ViewModel.Classes}"
+                SelectionMode="Multiple">
+                <muxc:TreeView.ItemTemplate>
+                    <DataTemplate x:DataType="model:PropNode">
+                        <muxc:TreeViewItem
+                            Content="{x:Bind Name}"
+                            IsExpanded="True"
+                            IsSelected="{x:Bind IsSelected}"
+                            ItemsSource="{x:Bind Properties}" />
+                    </DataTemplate>
+                </muxc:TreeView.ItemTemplate>
+            </muxc:TreeView>
+        </Grid>
+    </Grid>
+</Page>

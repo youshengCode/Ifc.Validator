@@ -34,17 +34,18 @@
                 Margin="0,10,0,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
+                CanReorderItems="False"
                 ItemsSource="{x:Bind ViewModel.Classes}"
+                SelectedItem="{x:Bind ViewModel.SelectedClasses}"
                 SelectionMode="Multiple">
-                <muxc:TreeView.ItemTemplate>
+                <!--<muxc:TreeView.ItemTemplate>
                     <DataTemplate x:DataType="model:PropNode">
                         <muxc:TreeViewItem
                             Content="{x:Bind Name}"
                             IsExpanded="True"
-                            IsSelected="{x:Bind IsSelected}"
                             ItemsSource="{x:Bind Properties}" />
                     </DataTemplate>
-                </muxc:TreeView.ItemTemplate>
+                </muxc:TreeView.ItemTemplate>-->
             </muxc:TreeView>
         </Grid>
     </Grid>

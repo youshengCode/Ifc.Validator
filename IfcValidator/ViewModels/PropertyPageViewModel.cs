@@ -19,6 +19,13 @@ namespace IfcValidator.ViewModels
             set { _classes = value; }
         }
 
+        private BindableCollection<PropNode> _selectedClasses = new BindableCollection<PropNode>();
+        public BindableCollection<PropNode> SelectedClasses
+        {
+            get { return _selectedClasses; }
+            set { _selectedClasses = value; }
+        }
+
 
         #region Initiation
         public PropertyPageViewModel()

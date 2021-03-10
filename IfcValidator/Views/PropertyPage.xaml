@@ -7,12 +7,41 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:IfcValidator.Core.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:views="using:IfcValidator.Views"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Styles/ValidatorPage.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="ClassTemplate" x:DataType="model:NodeItem">
+                <muxc:TreeViewItem
+                    AutomationProperties.Name="{x:Bind Name}"
+                    IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                    IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
+                    ItemsSource="{x:Bind Children, Mode=TwoWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE82D;" />-->
+                        <SymbolIcon Style="{StaticResource SymbolIconStyle}" Symbol="Library" />
+                        <TextBlock Margin="0,0,10,0" />
+                        <TextBlock Text="{x:Bind Name}" />
+                    </StackPanel>
+                </muxc:TreeViewItem>
+            </DataTemplate>
+            <DataTemplate x:Key="PropTemplate" x:DataType="model:NodeItem">
+                <muxc:TreeViewItem AutomationProperties.Name="{x:Bind Name}" IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE71B;" />-->
+                        <SymbolIcon Style="{StaticResource SymbolIconStyle}" Symbol="Link" />
+                        <TextBlock Margin="0,0,10,0" />
+                        <TextBlock Text="{x:Bind Name}" />
+                    </StackPanel>
+                </muxc:TreeViewItem>
+            </DataTemplate>
+            <views:NodeTemplateSelector
+                x:Key="NodeTemplateSelector"
+                ClassTemplate="{StaticResource ClassTemplate}"
+                PropTemplate="{StaticResource PropTemplate}" />
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
@@ -25,28 +54,40 @@
         <StackPanel Grid.Row="1">
             <TextBlock Style="{StaticResource ValidatorFeildTitle}" Text="Properties" />
         </StackPanel>
-        <Grid
-            Grid.Row="2"
-            BorderBrush="{ThemeResource TextControlBorderBrush}"
-            BorderThickness="1">
-            <muxc:TreeView
-                x:Name="propTreeView"
-                Margin="0,10,0,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
-                CanReorderItems="False"
-                ItemsSource="{x:Bind ViewModel.Classes}"
-                SelectedItem="{x:Bind ViewModel.SelectedClasses}"
-                SelectionMode="Multiple">
-                <!--<muxc:TreeView.ItemTemplate>
-                    <DataTemplate x:DataType="model:PropNode">
-                        <muxc:TreeViewItem
-                            Content="{x:Bind Name}"
-                            IsExpanded="True"
-                            ItemsSource="{x:Bind Properties}" />
-                    </DataTemplate>
-                </muxc:TreeView.ItemTemplate>-->
-            </muxc:TreeView>
+        <Grid Grid.Row="2" Margin="0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                BorderBrush="{StaticResource SecondaryColor}"
+                BorderThickness="1">
+                <muxc:TreeView
+                    x:Name="propTreeView"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    CanReorderItems="False"
+                    ItemTemplateSelector="{StaticResource NodeTemplateSelector}"
+                    ItemsSource="{x:Bind ViewModel.Classes, Mode=TwoWay}"
+                    SelectionMode="Multiple" />
+            </Grid>
+            <!--<Grid
+                Grid.Column="2"
+                BorderBrush="{StaticResource SecondaryColor}"
+                BorderThickness="1">
+                <muxc:TreeView
+                    x:Name="selectedTreeView"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    CanReorderItems="False"
+                    ItemTemplateSelector="{StaticResource NodeTemplateSelector}"
+                    ItemsSource="{x:Bind ViewModel.SelectedClasses, Mode=TwoWay}"
+                    SelectionMode="None" />
+                <Button Click="DebugEvent" Content="Debug" />
+            </Grid>-->
         </Grid>
     </Grid>
 </Page>

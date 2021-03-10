@@ -20,7 +20,7 @@ namespace IfcValidator.Services
             return steps;
         }
 
-        private static int GetCompletedStepCount(List<Step> steps)
+        public static int GetCompletedStepCount(List<Step> steps)
         {
             int i = 0;
             foreach (var item in steps)

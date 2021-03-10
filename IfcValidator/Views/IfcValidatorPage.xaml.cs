@@ -22,30 +22,70 @@ namespace IfcValidator.Views
         {
             InitializeComponent();
             StepControl.Content = new StepUserControl(ViewModel.Steps);
-
-            Workspace1.Content = propertyPage;
-            //Workspace1.Content = classificationPage;
+            //Workspace1.Content = propertyPage;
+            Workspace1.Content = classificationPage;
         }
 
         private void NextBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (classificationPage.ViewModel.HasSelection)
+            int step = StepServices.GetCompletedStepCount(ViewModel.Steps);
+            switch (step)
             {
-                StepControl.Content = new StepUserControl(ViewModel.MoveSteps());
-                Workspace1.Content = propertyPage;
-                //Set LanguageCode And Url
+                case 1:
+                    if (classificationPage.ViewModel.HasSelection)
+                    {
+                        StepControl.Content = new StepUserControl(ViewModel.MoveSteps());
+                        Workspace1.Content = propertyPage;
+                        //Set LanguageCode And Url
+                    }
+                    else
+                        NoticeShow("No classification selected.");
+                    break;
+                case 2:
+                    if (propertyPage.HasSelection())
+                    {
+                        StepControl.Content = new StepUserControl(ViewModel.MoveSteps());
+                        Workspace1.Content = null;
+                    }
+                    else
+                        NoticeShow("No property selected.");
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                InAppNotice.Content = "No classification selected.";
-                InAppNotice.Show(2000);
-            }
+        }
+
+        private void NoticeShow(string text)
+        {
+            InAppNotice.Content = text;
+            InAppNotice.Show(2000);
         }
 
         private void LastBtn_Click(object sender, RoutedEventArgs e)
         {
             StepControl.Content = new StepUserControl(ViewModel.MoveSteps(false));
             Workspace1.Content = classificationPage;
+        }
+
+        private int WhichStep(bool classDone = false, bool propDone = false, bool inputFileDone = false, bool importDome = false)
+        {
+            if ((classDone && propDone && inputFileDone) || (importDome && inputFileDone))
+            {
+                return 4;
+            }
+            else if ((classDone && propDone) || (importDome))
+            {
+                return 3;
+            }
+            else if (classDone && !propDone)
+            {
+                return 2;
+            }
+            else if (!classDone)
+            {
+                return 1;
+            }
+            else { return 0; }
         }
     }
 }

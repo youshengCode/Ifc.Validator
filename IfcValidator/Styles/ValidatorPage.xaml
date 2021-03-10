@@ -88,4 +88,10 @@
         <Setter Property="VerticalOffset" Value="100" />
     </Style>
 
+    <Style x:Key="SymbolIconStyle" TargetType="SymbolIcon">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+    </Style>
+
 </ResourceDictionary>

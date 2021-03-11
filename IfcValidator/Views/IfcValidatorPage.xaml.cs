@@ -22,8 +22,8 @@ namespace IfcValidator.Views
         {
             InitializeComponent();
             StepControl.Content = new StepUserControl(ViewModel.Steps);
-            //Workspace1.Content = propertyPage;
             Workspace1.Content = classificationPage;
+            //Workspace1.Content = propertyPage;
         }
 
         private void NextBtn_Click(object sender, RoutedEventArgs e)
@@ -35,14 +35,14 @@ namespace IfcValidator.Views
                     if (classificationPage.ViewModel.HasSelection)
                     {
                         StepControl.Content = new StepUserControl(ViewModel.MoveSteps());
+                        propertyPage.ViewModel.GetAllProperties(classificationPage.ViewModel.SelectedClasses);
                         Workspace1.Content = propertyPage;
-                        //Set LanguageCode And Url
                     }
                     else
                         NoticeShow("No classification selected.");
                     break;
                 case 2:
-                    if (propertyPage.HasSelection())
+                    if (propertyPage.ViewModel.HasSelection)
                     {
                         StepControl.Content = new StepUserControl(ViewModel.MoveSteps());
                         Workspace1.Content = null;
@@ -55,37 +55,16 @@ namespace IfcValidator.Views
             }
         }
 
-        private void NoticeShow(string text)
-        {
-            InAppNotice.Content = text;
-            InAppNotice.Show(2000);
-        }
-
         private void LastBtn_Click(object sender, RoutedEventArgs e)
         {
             StepControl.Content = new StepUserControl(ViewModel.MoveSteps(false));
             Workspace1.Content = classificationPage;
         }
 
-        private int WhichStep(bool classDone = false, bool propDone = false, bool inputFileDone = false, bool importDome = false)
+        private void NoticeShow(string text)
         {
-            if ((classDone && propDone && inputFileDone) || (importDome && inputFileDone))
-            {
-                return 4;
-            }
-            else if ((classDone && propDone) || (importDome))
-            {
-                return 3;
-            }
-            else if (classDone && !propDone)
-            {
-                return 2;
-            }
-            else if (!classDone)
-            {
-                return 1;
-            }
-            else { return 0; }
+            InAppNotice.Content = text;
+            InAppNotice.Show(2000);
         }
     }
 }

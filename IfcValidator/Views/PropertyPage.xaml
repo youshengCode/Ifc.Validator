@@ -21,7 +21,6 @@
                     IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
                     ItemsSource="{x:Bind Children, Mode=TwoWay}">
                     <StackPanel Orientation="Horizontal">
-                        <!--<TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE82D;" />-->
                         <SymbolIcon Style="{StaticResource SymbolIconStyle}" Symbol="Library" />
                         <TextBlock Margin="0,0,10,0" />
                         <TextBlock Text="{x:Bind Name}" />
@@ -31,7 +30,6 @@
             <DataTemplate x:Key="PropTemplate" x:DataType="model:NodeItem">
                 <muxc:TreeViewItem AutomationProperties.Name="{x:Bind Name}" IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
                     <StackPanel Orientation="Horizontal">
-                        <!--<TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE71B;" />-->
                         <SymbolIcon Style="{StaticResource SymbolIconStyle}" Symbol="Link" />
                         <TextBlock Margin="0,0,10,0" />
                         <TextBlock Text="{x:Bind Name}" />
@@ -51,9 +49,20 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="1">
-            <TextBlock Style="{StaticResource ValidatorFeildTitle}" Text="Properties" />
-        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                Style="{StaticResource ValidatorFeildTitle}"
+                Text="Properties" />
+            <TextBlock
+                Grid.Column="1"
+                Style="{StaticResource ValidatorRightNotice}"
+                Text="{x:Bind ViewModel.PropertyNotice, Mode=TwoWay}" />
+        </Grid>
         <Grid Grid.Row="2" Margin="0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
@@ -62,7 +71,6 @@
             </Grid.ColumnDefinitions>
             <Grid
                 Grid.Column="0"
-                Grid.ColumnSpan="3"
                 BorderBrush="{StaticResource SecondaryColor}"
                 BorderThickness="1">
                 <muxc:TreeView
@@ -72,9 +80,10 @@
                     CanReorderItems="False"
                     ItemTemplateSelector="{StaticResource NodeTemplateSelector}"
                     ItemsSource="{x:Bind ViewModel.Classes, Mode=TwoWay}"
+                    SelectionChanged="propTreeView_SelectionChanged"
                     SelectionMode="Multiple" />
             </Grid>
-            <!--<Grid
+            <Grid
                 Grid.Column="2"
                 BorderBrush="{StaticResource SecondaryColor}"
                 BorderThickness="1">
@@ -84,10 +93,9 @@
                     VerticalAlignment="Top"
                     CanReorderItems="False"
                     ItemTemplateSelector="{StaticResource NodeTemplateSelector}"
-                    ItemsSource="{x:Bind ViewModel.SelectedClasses, Mode=TwoWay}"
+                    ItemsSource="{x:Bind ViewModel.SelectedClasses, Mode=OneWay}"
                     SelectionMode="None" />
-                <Button Click="DebugEvent" Content="Debug" />
-            </Grid>-->
+            </Grid>
         </Grid>
     </Grid>
 </Page>

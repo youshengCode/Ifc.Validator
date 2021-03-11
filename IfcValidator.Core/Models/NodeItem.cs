@@ -74,11 +74,12 @@ namespace IfcValidator.Core.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+
         private void GetChildrenNode()
         {
-            foreach (var item in ClassEntity.ClassificationProperties)
-                Children.Add(new NodeItem(item.Name, Name));
+            if (ClassEntity.ClassificationProperties != null)
+                foreach (var item in ClassEntity.ClassificationProperties)
+                    Children.Add(new NodeItem(item.Name, Name));
         }
 
         public override string ToString()

@@ -21,17 +21,45 @@
                     IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
                     ItemsSource="{x:Bind Children, Mode=TwoWay}">
                     <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Style="{StaticResource SymbolIconStyle}" Symbol="Library" />
-                        <TextBlock Margin="0,0,10,0" />
-                        <TextBlock Text="{x:Bind Name}" />
+                        <SymbolIcon
+                            Margin="0,0,10,0"
+                            Style="{StaticResource SymbolIconStyle}"
+                            Symbol="Library" />
+                        <TextBlock VerticalAlignment="Center" Text="{x:Bind Name}" />
+                        <!--<muxc:ItemsRepeater x:Name="innerRepeater" ItemsSource="{x:Bind ClassEntity.RelatedIfcEntityNames}">
+                            <muxc:ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <TextBlock
+                                        Padding="4"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="{StaticResource SecondaryColor}"
+                                        Text="{x:Bind}"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </muxc:ItemsRepeater.ItemTemplate>
+                            <muxc:ItemsRepeater.Layout>
+                                <muxc:StackLayout Orientation="Horizontal" />
+                            </muxc:ItemsRepeater.Layout>
+                        </muxc:ItemsRepeater>-->
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Foreground="{StaticResource SecondaryColor}"
+                            Text="{x:Bind RefIfcEntity}"
+                            TextWrapping="WrapWholeWords"
+                            ToolTipService.ToolTip="{x:Bind RefIfcEntity}" />
                     </StackPanel>
                 </muxc:TreeViewItem>
             </DataTemplate>
             <DataTemplate x:Key="PropTemplate" x:DataType="model:NodeItem">
                 <muxc:TreeViewItem AutomationProperties.Name="{x:Bind Name}" IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
                     <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Style="{StaticResource SymbolIconStyle}" Symbol="Link" />
-                        <TextBlock Margin="0,0,10,0" />
+                        <SymbolIcon
+                            Margin="0,0,10,0"
+                            Style="{StaticResource SymbolIconStyle}"
+                            Symbol="Link" />
                         <TextBlock Text="{x:Bind Name}" />
                     </StackPanel>
                 </muxc:TreeViewItem>

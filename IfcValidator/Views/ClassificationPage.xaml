@@ -28,6 +28,13 @@
                         x:Phase="1"
                         Style="{ThemeResource BaseTextBlockStyle}"
                         Text="{x:Bind Name}" />
+                    <!--<TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="12,0,0,6"
+                        x:Phase="2"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind NamespaceUri}" />-->
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>

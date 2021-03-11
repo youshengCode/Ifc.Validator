@@ -9,12 +9,14 @@ namespace IfcValidator.Core.Models
 {
     public class NodeItem : INotifyPropertyChanged
     {
+        public NodeItem() { }
         public NodeItem(ClassificationContractV2 classEntity)
         {
             ClassEntity = classEntity;
             Name = classEntity.Name;
             Type = NodeItemType.Classification;
             GetChildrenNode();
+            GetRefIfcEntity();
             ParentName = null;
         }
         public NodeItem(string name, string parentName)
@@ -24,6 +26,7 @@ namespace IfcValidator.Core.Models
             ParentName = parentName;
         }
         public string Name { get; set; }
+        public string RefIfcEntity { get; set; }
         public string ParentName { get; set; }
         public NodeItemType Type { get; set; }
         public enum NodeItemType { Classification, Property };
@@ -80,6 +83,17 @@ namespace IfcValidator.Core.Models
             if (ClassEntity.ClassificationProperties != null)
                 foreach (var item in ClassEntity.ClassificationProperties)
                     Children.Add(new NodeItem(item.Name, Name));
+        }
+        private void GetRefIfcEntity()
+        {
+            string entities = null;
+            if (ClassEntity.RelatedIfcEntityNames != null)
+                foreach (var item in ClassEntity.RelatedIfcEntityNames)
+                {
+                    entities += $" {item}";
+                }
+            if(!string.IsNullOrEmpty(entities))
+                RefIfcEntity = $"Related: {entities}";
         }
 
         public override string ToString()

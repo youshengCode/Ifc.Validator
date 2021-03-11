@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
@@ -21,6 +22,19 @@ namespace IfcValidator.Core.Helpers
             {
                 return JsonConvert.SerializeObject(value);
             });
+        }
+
+        public static T DeserializeJsonFile<T>(string fileFullPath)
+        {
+            try
+            {
+                string context = File.ReadAllText(fileFullPath);
+                return JsonConvert.DeserializeObject<T>(context);
+            }
+            catch (FileNotFoundException)
+            {
+                return default(T);
+            }
         }
     }
 }

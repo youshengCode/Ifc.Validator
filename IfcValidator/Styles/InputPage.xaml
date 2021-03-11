@@ -102,7 +102,7 @@
 
     <Style x:Key="FileContainer" TargetType="Grid">
         <Setter Property="Height" Value="52" />
-        <Setter Property="Background" Value="{ThemeResource SystemAltLowColor}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlAcrylicElementBrush}" />
         <Setter Property="CornerRadius" Value="3" />
         <Setter Property="Margin" Value="0,5,0,0" />
     </Style>

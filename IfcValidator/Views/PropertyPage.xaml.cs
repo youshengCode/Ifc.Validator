@@ -22,10 +22,16 @@ namespace IfcValidator.Views
 
         private void propTreeView_SelectionChanged(Microsoft.UI.Xaml.Controls.TreeView sender, Microsoft.UI.Xaml.Controls.TreeViewSelectionChangedEventArgs args)
         {
+            UpdateSelection();
+        }
+
+        public void UpdateSelection()
+        {
             IList<NodeItem> selected = new List<NodeItem>();
-            foreach (var item in propTreeView.SelectedItems)
-                if (item is NodeItem node)
-                    selected.Add(node);
+            if (propTreeView.SelectedItems != null)
+                foreach (var item in propTreeView.SelectedItems)
+                    if (item is NodeItem node)
+                        selected.Add(node);
             ViewModel.GetAllSelection(selected);
         }
     }

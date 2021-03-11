@@ -114,7 +114,7 @@ namespace IfcValidator.ViewModels
         {
             var response = new LanguageApi(LocalData.baseHttp).ApiLanguageV1Get();
             List<string> languages = new List<string>();
-            languages.Add("All languages");
+            languages.Add(ResourceExtensions.GetLocalized("ClassificationPage_AllLanguage"));
             foreach (var item in response)
             {
                 LanguageDic.Add(item.IsoCode, item.Name);
@@ -161,7 +161,7 @@ namespace IfcValidator.ViewModels
         {
             if (_selectedLanguage == null)
                 return null;
-            else if( _selectedLanguage.Equals("All languages"))
+            else if( _selectedLanguage.Equals(ResourceExtensions.GetLocalized("ClassificationPage_AllLanguage")))
                 return null;
             else
             {
@@ -174,7 +174,7 @@ namespace IfcValidator.ViewModels
             if (!string.IsNullOrEmpty(SelectedDomain))
             {
                 string languangeCode = DomainDic[SelectedDomain].Domain.DefaultLanguageCode;
-                DefaultLanguage = $"Default language: {LanguageDic[languangeCode]}";
+                DefaultLanguage = $"{ResourceExtensions.GetLocalized("ClassificationPage_DefaultLanguage")}: {LanguageDic[languangeCode]}";
             }
         }
         private void UpdateClassificationNotice(int? number)
@@ -182,18 +182,18 @@ namespace IfcValidator.ViewModels
             if(number != null)
             {
                 if (number >= 200)
-                    ClassificationNotice = $"More than 200 items found, please use search to find specific classification.";
+                    ClassificationNotice = ResourceExtensions.GetLocalized("ClassificationPage_MoreThan200");
                 else if (number == 0)
-                    ClassificationNotice = $"No result.";
+                    ClassificationNotice = ResourceExtensions.GetLocalized("ClassificationPage_NoResult");
                 else
-                    ClassificationNotice = $"Total: {number}";
+                    ClassificationNotice = $"{ResourceExtensions.GetLocalized("ClassificationPage_Total")}: {number}";
             }
         }
         private void UpdateSelecedClassesNotice()
         {
             if (_selectedClasses.Count > 0)
             {
-                SelectedNotice = $"Selected Classes: {_selectedClasses.Count}";
+                SelectedNotice = $"{ResourceExtensions.GetLocalized("ClassificationPage_Selected")}: {_selectedClasses.Count}";
                 HasSelection = true;
             }
             else

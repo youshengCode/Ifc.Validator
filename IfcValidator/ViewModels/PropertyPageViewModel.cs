@@ -44,21 +44,35 @@ namespace IfcValidator.ViewModels
         #region Initiation
         public PropertyPageViewModel()
         {
-            //string namespaceUrl = "http://identifier.buildingsmart.org/uri/buildingsmart/ifc-4.3/class/IfcWall";
-            //GetPropertiesInClassification(namespaceUrl);
+
         }
         public void GetAllProperties(BindableCollection<ClassificationSearchResultContractV2> selectedClasses)
         {
+            List<NodeItem> newNodes = new List<NodeItem>();
             foreach (var item in selectedClasses)
             {
-                GetPropertiesInClassification(item.NamespaceUri);
+                newNodes.Add(GetPropertiesInClassification(item.NamespaceUri));
+            }
+            foreach (var item in newNodes)
+            {
+                IEnumerable<NodeItem> nodes = _classes.Where(o => o.Name == item.Name);
+                if (nodes.Count() == 0)
+                    _classes.Add(item);
+            }
+            for (int i = 0; i < _classes.Count; i++)
+            {
+                var item = _classes[i];
+                IEnumerable<NodeItem> nodes = newNodes.Where(o => o.Name == item.Name);
+                if (nodes.Count() == 0)
+                    _classes.RemoveAt(i);
             }
         }
-        private void GetPropertiesInClassification(string namespaceUrl, string languageCode = null, bool? includChild = false)
+        private NodeItem GetPropertiesInClassification(string namespaceUrl, string languageCode = null, bool? includChild = false)
         {
             ClassificationContractV2 response = new ClassificationApi(LocalData.baseHttp).
                 ApiClassificationV2Get(namespaceUrl, languageCode, includChild);
-            _classes.Add(new NodeItem(response));
+            NodeItem node = new NodeItem(response);
+            return node;
         }
         #endregion
 
@@ -66,12 +80,15 @@ namespace IfcValidator.ViewModels
         public void GetAllSelection(IList<NodeItem> selected)
         {
             BindableCollection<NodeItem> newNodes = new BindableCollection<NodeItem>();
+            SelectedClasses.Clear();
             if (selected.Count > 0)
             {
                 foreach (var item in selected)
                 {
-                    if (item.Type == NodeItem.NodeItemType.Classification)
-                        newNodes.Add(item);
+                    IEnumerable<NodeItem> nodes = _classes.Where(o => o.Name == item.Name);
+                    if (nodes.Count() != 0)
+                        if (item.Type == NodeItem.NodeItemType.Classification)
+                            newNodes.Add(item);
                 }
                 foreach (var item in newNodes)
                 {
@@ -104,7 +121,6 @@ namespace IfcValidator.ViewModels
                 }
             }
             UpdatePropNotice(newNodes);
-            SelectedClasses.Clear();
             SelectedClasses = newNodes;
         }
         private void UpdatePropNotice(BindableCollection<NodeItem> newNodes)
@@ -124,14 +140,15 @@ namespace IfcValidator.ViewModels
                     }
                 }
                 if (classCount > 1)
-                    classText = $"{classCount} classifications";
+                    classText = $"{classCount} {ResourceExtensions.GetLocalized("PropertyNotice_ClassN")}";
                 else
-                    classText = $"{classCount} classification";
+                    classText = $"{classCount} {ResourceExtensions.GetLocalized("PropertyNotice_Class1")}";
                 if (propCount > 1)
-                    propText = $"{propCount} properties";
+                    propText = $"{propCount} {ResourceExtensions.GetLocalized("PropertyNotice_PropN")}";
                 else
-                    propText = $"{propCount} property";
-                PropertyNotice = $"Selected {propText} in {classText}";
+                    propText = $"{propCount} {ResourceExtensions.GetLocalized("PropertyNotice_Prop1")}";
+                PropertyNotice = $"{ResourceExtensions.GetLocalized("PropertyNotice_Selected")} {propText} " +
+                    $"{ResourceExtensions.GetLocalized("PropertyNotice_In")} {classText}";
                 HasSelection = true;
             }
             else

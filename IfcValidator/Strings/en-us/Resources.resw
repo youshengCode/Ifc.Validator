@@ -129,4 +129,103 @@
     <value>IFC Validator</value>
     <comment>Page title for MainPage</comment>
   </data>
+  <data name="Tool_OnFileDragOver" xml:space="preserve">
+    <value>Import file</value>
+  </data>
+  <data name="ClassificationPage_AllLanguage" xml:space="preserve">
+    <value>All languages</value>
+  </data>
+  <data name="ClassificationPage_Classification.Text" xml:space="preserve">
+    <value>Classification</value>
+  </data>
+  <data name="ClassificationPage_DefaultLanguage" xml:space="preserve">
+    <value>Default language</value>
+  </data>
+  <data name="ClassificationPage_Domain.Text" xml:space="preserve">
+    <value>Domain</value>
+  </data>
+  <data name="ClassificationPage_DomainComboBox.PlaceholderText" xml:space="preserve">
+    <value>Not selected</value>
+  </data>
+  <data name="ClassificationPage_LanguageComboBox.PlaceholderText" xml:space="preserve">
+    <value>All languages</value>
+  </data>
+  <data name="ClassificationPage_MoreThan200" xml:space="preserve">
+    <value>More than 200 items found, please use search to find specific classification.</value>
+  </data>
+  <data name="ClassificationPage_NoResult" xml:space="preserve">
+    <value>No result.</value>
+  </data>
+  <data name="ClassificationPage_RemoveButton.Content" xml:space="preserve">
+    <value>Remove selected</value>
+  </data>
+  <data name="ClassificationPage_SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Search...</value>
+  </data>
+  <data name="ClassificationPage_Selected" xml:space="preserve">
+    <value>Selected Classes</value>
+  </data>
+  <data name="ClassificationPage_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="PropertyNotice_Class1" xml:space="preserve">
+    <value>classification</value>
+  </data>
+  <data name="PropertyNotice_ClassN" xml:space="preserve">
+    <value>classifications</value>
+  </data>
+  <data name="PropertyNotice_In" xml:space="preserve">
+    <value>in</value>
+  </data>
+  <data name="PropertyNotice_Prop1" xml:space="preserve">
+    <value>property</value>
+  </data>
+  <data name="PropertyNotice_PropN" xml:space="preserve">
+    <value>properties</value>
+  </data>
+  <data name="PropertyNotice_Selected" xml:space="preserve">
+    <value>Selected</value>
+  </data>
+  <data name="PropertyTitle.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="Tool_InputAddButton.Label" xml:space="preserve">
+    <value>Add File</value>
+  </data>
+  <data name="Tool_InputClearButton.Label" xml:space="preserve">
+    <value>Clear All</value>
+  </data>
+  <data name="Tool_InputPlaceHolder.Text" xml:space="preserve">
+    <value>Choose files or Drop files here</value>
+  </data>
+  <data name="Tool_InputTitle.Text" xml:space="preserve">
+    <value>Input file</value>
+  </data>
+  <data name="ValidatorPage_LastButton.Content" xml:space="preserve">
+    <value>&lt; Last</value>
+  </data>
+  <data name="ValidatorPage_NextButton.Content" xml:space="preserve">
+    <value>Next &gt;</value>
+  </data>
+  <data name="ValidatorPage_Notice_NoClasses" xml:space="preserve">
+    <value>No classification selected.</value>
+  </data>
+  <data name="ValidatorPage_Notice_NoFile" xml:space="preserve">
+    <value>No IFC file selected.</value>
+  </data>
+  <data name="ValidatorPage_Notice_NoProps" xml:space="preserve">
+    <value>No property selected.</value>
+  </data>
+  <data name="ValidatorPage_Step1" xml:space="preserve">
+    <value>Choose classifications</value>
+  </data>
+  <data name="ValidatorPage_Step2" xml:space="preserve">
+    <value>Choose properties</value>
+  </data>
+  <data name="ValidatorPage_Step3" xml:space="preserve">
+    <value>Selecte IFC file</value>
+  </data>
+  <data name="ValidatorPage_Step4" xml:space="preserve">
+    <value>Report</value>
+  </data>
 </root>

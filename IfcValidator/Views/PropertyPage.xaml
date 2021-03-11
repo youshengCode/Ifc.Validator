@@ -55,9 +55,9 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock
+                x:Uid="PropertyTitle"
                 Grid.Column="0"
-                Style="{StaticResource ValidatorFeildTitle}"
-                Text="Properties" />
+                Style="{StaticResource ValidatorFeildTitle}" />
             <TextBlock
                 Grid.Column="1"
                 Style="{StaticResource ValidatorRightNotice}"

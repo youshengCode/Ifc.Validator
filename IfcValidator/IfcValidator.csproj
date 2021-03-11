@@ -141,10 +141,14 @@
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
     <Compile Include="Helpers\Convertors.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
+    <Compile Include="Helpers\LocalConfig.cs" />
+    <Compile Include="Helpers\MarsFileManager.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Models\DragDropCompletedData.cs" />
     <Compile Include="Models\DragDropData.cs" />
     <Compile Include="Models\DragDropStartingData.cs" />
+    <Compile Include="Models\File.cs" />
     <Compile Include="Models\Step.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />
@@ -155,9 +159,13 @@
     <Compile Include="Services\StepServices.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\ClassificationPageViewModel.cs" />
+    <Compile Include="ViewModels\InputFilePageViewModel.cs" />
     <Compile Include="ViewModels\PropertyPageViewModel.cs" />
     <Compile Include="ViewModels\IfcValidatorPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\InputFilePage.xaml.cs">
+      <DependentUpon>InputFilePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PropertyPage.xaml.cs">
       <DependentUpon>PropertyPage.xaml</DependentUpon>
     </Compile>
@@ -181,6 +189,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Styles\InputPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\Page.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -212,6 +224,10 @@
     <Page Include="Styles\TextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InputFilePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PropertyPage.xaml">
       <Generator>MSBuild:Compile</Generator>

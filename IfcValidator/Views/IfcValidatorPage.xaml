@@ -29,13 +29,13 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
                     <Button
+                        x:Uid="ValidatorPage_LastButton"
                         Click="LastBtn_Click"
-                        Content="&lt; Last"
                         Style="{StaticResource RightActionButton}"
                         Visibility="{x:Bind ViewModel.ShowLastButton, Mode=TwoWay, Converter={StaticResource BoolToVisible}}" />
                     <Button
+                        x:Uid="ValidatorPage_NextButton"
                         Click="NextBtn_Click"
-                        Content="Next &gt;"
                         Style="{StaticResource RightActionButton}"
                         Visibility="{x:Bind ViewModel.ShowNextButton, Mode=TwoWay, Converter={StaticResource BoolToVisible}}" />
                 </StackPanel>

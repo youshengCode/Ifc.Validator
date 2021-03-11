@@ -1,0 +1,152 @@
+﻿<Page
+    x:Class="IfcValidator.Views.InputFilePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cm="using:Caliburn.Micro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:IfcValidator.Models"
+    Background="Transparent"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/InputPage.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/ValidatorPage.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid x:Name="ContentArea">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Uid="Tool_InputTitle"
+                Grid.Column="0"
+                Style="{StaticResource ValidatorFeildTitle}" />
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+            <Grid
+                Height="Auto"
+                AllowDrop="True"
+                DragLeave="OnFileDragLeave"
+                DragOver="OnFileDragOver"
+                Drop="OnFileDrop">
+                <Grid
+                    x:Name="DragDropPanel"
+                    Height="250"
+                    Visibility="{x:Bind ViewModel.DragDropVisible, Mode=TwoWay, Converter={StaticResource BoolToVisible}}">
+                    <RelativePanel>
+                        <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                            <SymbolIcon
+                                x:Name="AddSymbol"
+                                Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                                RenderTransformOrigin="0.5,0.5"
+                                Symbol="Add" />
+                            <TextBlock
+                                x:Uid="Tool_InputPlaceHolder"
+                                Margin="0,10,0,0"
+                                FontSize="16"
+                                Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}" />
+                        </StackPanel>
+                    </RelativePanel>
+                    <Rectangle
+                        Fill="Transparent"
+                        RadiusX="15"
+                        RadiusY="15"
+                        Stroke="{ThemeResource SystemControlPageTextBaseMediumBrush}"
+                        StrokeDashArray="2"
+                        StrokeThickness="2" />
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Click="AddFileToInput_Click"
+                        CornerRadius="15"
+                        Style="{StaticResource HoverButton}" />
+                </Grid>
+                <Grid
+                    x:Name="FileInfoPanel"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Visibility="{x:Bind ViewModel.FileInfoVisible, Mode=TwoWay, Converter={StaticResource BoolToVisible}}">
+                    <StackPanel>
+                        <StackPanel
+                            Margin="0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Visibility="{x:Bind ViewModel.IsSingleInput, Mode=TwoWay, Converter={StaticResource BoolToVisibleReverse}}">
+                            <CommandBar
+                                Width="Auto"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                DefaultLabelPosition="Right"
+                                IsOpen="False">
+                                <AppBarButton
+                                    x:Uid="Tool_InputAddButton"
+                                    Click="AddFileToInput_Click"
+                                    Icon="Add" />
+                                <AppBarButton
+                                    x:Uid="Tool_InputClearButton"
+                                    Click="ClearAllFiles_Click"
+                                    Icon="Redo" />
+                            </CommandBar>
+                        </StackPanel>
+
+                        <ItemsControl x:Name="InputFiles" ItemsSource="{x:Bind ViewModel.InputFiles, Mode=TwoWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:UserFile">
+                                    <Grid Style="{StaticResource FileContainer}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <SymbolIcon
+                                            Grid.Column="0"
+                                            Style="{StaticResource FileSymbolIcon}"
+                                            Symbol="OpenFile" />
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Style="{StaticResource FileNameTextBlock}" Text="{x:Bind Name, Mode=TwoWay}" />
+                                            <TextBlock Style="{StaticResource FileAddressTextBlock}" Text="{x:Bind FilePath, Mode=TwoWay}" />
+                                        </StackPanel>
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Style="{StaticResource FileMetaDataTextBlock}"
+                                            Text="{x:Bind DisplayTime, Mode=TwoWay}" />
+                                        <TextBlock
+                                            Grid.Column="3"
+                                            Style="{StaticResource FileMetaDataTextBlock}"
+                                            Text="{x:Bind Size, Mode=TwoWay}" />
+                                        <Button
+                                            Grid.Column="4"
+                                            HorizontalAlignment="Center"
+                                            cm:Action.TargetWithoutContext="{Binding ElementName=InputFiles, Path=DataContext}"
+                                            cm:Message.Attach="[Event Click]=[Action RemoveFile($dataContext)]"
+                                            Background="Transparent"
+                                            CornerRadius="3">
+                                            <SymbolIcon
+                                                Foreground="{ThemeResource SystemChromeAltLowColor}"
+                                                Style="{StaticResource FileSymbolIcon}"
+                                                Symbol="Delete" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

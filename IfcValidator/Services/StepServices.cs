@@ -1,4 +1,5 @@
-﻿using IfcValidator.Models;
+﻿using IfcValidator.Helpers;
+using IfcValidator.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,10 +14,10 @@ namespace IfcValidator.Services
         public static List<Step> GenerateIfcValidatorSteps()
         {
             List<Step> steps = new List<Step>();
-            steps.Add(new Step(1, "Choose classifications", true));
-            steps.Add(new Step(2, "Choose properties"));
-            steps.Add(new Step(3, "Selecte IFC file"));
-            steps.Add(new Step(4, "Report"));
+            steps.Add(new Step(1, ResourceExtensions.GetLocalized("ValidatorPage_Step1"), true));
+            steps.Add(new Step(2, ResourceExtensions.GetLocalized("ValidatorPage_Step2")));
+            steps.Add(new Step(3, ResourceExtensions.GetLocalized("ValidatorPage_Step3")));
+            steps.Add(new Step(4, ResourceExtensions.GetLocalized("ValidatorPage_Step4")));
             return steps;
         }
 

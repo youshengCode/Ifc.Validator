@@ -21,16 +21,6 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <!--<Ellipse
-                        x:Name="Ellipse"
-                        Grid.RowSpan="2"
-                        Width="32"
-                        Height="Auto"
-                        Margin="6"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
-                        ToolTipService.ToolTip="{x:Bind Definition}" />-->
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="1"
@@ -38,13 +28,6 @@
                         x:Phase="1"
                         Style="{ThemeResource BaseTextBlockStyle}"
                         Text="{x:Bind Name}" />
-                    <!--<TextBlock
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Margin="12,0,0,6"
-                        x:Phase="2"
-                        Style="{ThemeResource BodyTextBlockStyle}"
-                        Text="{x:Bind Synonyms}" />-->
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -58,11 +41,11 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="1">
-            <TextBlock Style="{StaticResource ValidatorFeildTitle}" Text="Domain" />
+            <TextBlock x:Uid="ClassificationPage_Domain" Style="{StaticResource ValidatorFeildTitle}" />
             <StackPanel Orientation="Horizontal">
                 <ComboBox
+                    x:Uid="ClassificationPage_DomainComboBox"
                     ItemsSource="{x:Bind ViewModel.Domains, Mode=OneTime}"
-                    PlaceholderText="Not selected"
                     SelectedItem="{x:Bind ViewModel.SelectedDomain, Mode=TwoWay}"
                     SelectionChanged="DomainSelectChange"
                     Style="{StaticResource ValidatorComboBox}" />
@@ -71,7 +54,7 @@
         </StackPanel>
         <StackPanel Grid.Row="2">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{StaticResource ValidatorFeildTitle}" Text="Classification" />
+                <TextBlock x:Uid="ClassificationPage_Classification" Style="{StaticResource ValidatorFeildTitle}" />
                 <TextBlock Style="{StaticResource ValidatorRightNotice}" Text="{x:Bind ViewModel.ClassificationNotice, Mode=TwoWay}" />
             </StackPanel>
             <Grid>
@@ -83,9 +66,9 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <ComboBox
+                    x:Uid="ClassificationPage_LanguageComboBox"
                     Grid.Column="0"
                     ItemsSource="{x:Bind ViewModel.Languages, Mode=OneTime}"
-                    PlaceholderText="All languages"
                     SelectedItem="{x:Bind ViewModel.SelectedLanguage, Mode=TwoWay}"
                     SelectionChanged="LanguageSelectChange"
                     Style="{StaticResource ValidatorComboBox}" />
@@ -94,8 +77,8 @@
                         <Button Click="SearchButtonClick" Style="{StaticResource SearchIcon}" />
                         <TextBox
                             x:Name="SearchInput"
+                            x:Uid="ClassificationPage_SearchBox"
                             KeyDown="SearchKeyDown"
-                            PlaceholderText="Search..."
                             Style="{StaticResource SearchTextbox}"
                             Text="{x:Bind ViewModel.SearchText, Mode=TwoWay}" />
                     </StackPanel>
@@ -105,9 +88,9 @@
                     Style="{StaticResource ValidatorRightNotice}"
                     Text="{x:Bind ViewModel.SelectedNotice, Mode=TwoWay}" />
                 <Button
+                    x:Uid="ClassificationPage_RemoveButton"
                     Grid.Column="4"
                     Click="RemoveSelectionButton_Click"
-                    Content="Remove selected"
                     Style="{StaticResource RightButton}"
                     Visibility="{x:Bind ViewModel.HasSelection, Mode=TwoWay, Converter={StaticResource BoolToVisible}}" />
             </Grid>

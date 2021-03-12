@@ -19,15 +19,18 @@ namespace IfcValidator.Core.Models
             GetRefIfcEntity();
             ParentName = null;
         }
-        public NodeItem(string name, string parentName)
+        public NodeItem(string name, string parentName, string propertyDomainName)
         {
             Name = name;
             Type = NodeItemType.Property;
             ParentName = parentName;
+            PropertyDomainName = propertyDomainName;
         }
         public string Name { get; set; }
         public string RefIfcEntity { get; set; }
         public string ParentName { get; set; }
+        public string PropertyDomainName { get; set; }
+        public int ExistCount { get; set; } = 0;
         public NodeItemType Type { get; set; }
         public enum NodeItemType { Classification, Property };
         public ClassificationContractV2 ClassEntity { get; set; }
@@ -82,7 +85,7 @@ namespace IfcValidator.Core.Models
         {
             if (ClassEntity.ClassificationProperties != null)
                 foreach (var item in ClassEntity.ClassificationProperties)
-                    Children.Add(new NodeItem(item.Name, Name));
+                    Children.Add(new NodeItem(item.Name, Name, item.PropertyDomainName));
         }
         private void GetRefIfcEntity()
         {

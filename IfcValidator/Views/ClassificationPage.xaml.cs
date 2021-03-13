@@ -60,5 +60,10 @@ namespace IfcValidator.Views
                 listItems.Add(item);
             ViewModel.RemoveSelecteClasses(listItems);
         }
+
+        private void RemoveAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.RemoveAllClasses();
+        }
     }
 }

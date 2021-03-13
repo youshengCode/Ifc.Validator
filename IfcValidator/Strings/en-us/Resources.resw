@@ -157,7 +157,7 @@
     <value>No result.</value>
   </data>
   <data name="ClassificationPage_RemoveButton.Content" xml:space="preserve">
-    <value>Remove selected</value>
+    <value>Remove Selected</value>
   </data>
   <data name="ClassificationPage_SearchBox.PlaceholderText" xml:space="preserve">
     <value>Search...</value>
@@ -230,5 +230,8 @@
   </data>
   <data name="PropertyInfo.Text" xml:space="preserve">
     <value>*If you are not in the IFC domain, please notice that only those classification with a Related tag can be verified in an IFC file.</value>
+  </data>
+  <data name="ClassificationPage_RemoveAllButton.Content" xml:space="preserve">
+    <value>Clear All</value>
   </data>
 </root>

@@ -5,6 +5,7 @@
     xmlns:bsdd="using:IO.Swagger.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="classificationContent"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -27,7 +28,8 @@
                         Margin="12,6,0,0"
                         x:Phase="1"
                         Style="{ThemeResource BaseTextBlockStyle}"
-                        Text="{x:Bind Name}" />
+                        Text="{x:Bind Name}"
+                        ToolTipService.ToolTip="{x:Bind Definition}" />
                     <!--<TextBlock
                         Grid.Row="1"
                         Grid.Column="1"
@@ -71,6 +73,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <ComboBox
                     x:Uid="ClassificationPage_LanguageComboBox"
@@ -98,6 +101,12 @@
                     x:Uid="ClassificationPage_RemoveButton"
                     Grid.Column="4"
                     Click="RemoveSelectionButton_Click"
+                    Style="{StaticResource RightButton}"
+                    Visibility="{x:Bind ViewModel.HasSelection, Mode=TwoWay, Converter={StaticResource BoolToVisible}}" />
+                <Button
+                    x:Uid="ClassificationPage_RemoveAllButton"
+                    Grid.Column="5"
+                    Click="RemoveAllButton_Click"
                     Style="{StaticResource RightButton}"
                     Visibility="{x:Bind ViewModel.HasSelection, Mode=TwoWay, Converter={StaticResource BoolToVisible}}" />
             </Grid>

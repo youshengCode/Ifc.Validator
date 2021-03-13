@@ -111,7 +111,7 @@ namespace IfcValidator.ViewModels
                     propText = $"{propCount} {ResourceExtensions.GetLocalized("PropertyNotice_Prop1")}";
                 PropertyNotice = $"{ResourceExtensions.GetLocalized("PropertyNotice_Selected")} {propText} " +
                     $"{ResourceExtensions.GetLocalized("PropertyNotice_In")} {classText}";
-                HasSelection = true;
+                HasSelection = propCount > 0 ? true : false;
             }
             else
             {

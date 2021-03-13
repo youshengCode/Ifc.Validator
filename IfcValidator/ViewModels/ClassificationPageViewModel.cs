@@ -157,6 +157,11 @@ namespace IfcValidator.ViewModels
                     _selectedClasses.Remove(item);
             UpdateSelecedClassesNotice();
         }
+        public void RemoveAllClasses()
+        {
+            _selectedClasses.Clear();
+            UpdateSelecedClassesNotice();
+        }
         public string GetSelectLanguageCode()
         {
             if (_selectedLanguage == null)

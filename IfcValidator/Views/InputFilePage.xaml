@@ -21,7 +21,7 @@
     <Grid x:Name="ContentArea">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -43,6 +43,7 @@
                 <Grid
                     x:Name="DragDropPanel"
                     Height="250"
+                    VerticalAlignment="Top"
                     Visibility="{x:Bind ViewModel.DragDropVisible, Mode=TwoWay, Converter={StaticResource BoolToVisible}}">
                     <RelativePanel>
                         <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">

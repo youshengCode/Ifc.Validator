@@ -41,32 +41,22 @@ namespace IfcValidator.ViewModels
         #endregion
 
         #region Initiation
-        public PropertyPageViewModel()
-        {
-            string url = "http://identifier.buildingsmart.org/uri/buildingsmart/ifc-4.3/class/IfcWall";
-            Classes.Add(GetPropertiesInClassification(url));
-        }
+        public PropertyPageViewModel() { }
         public void GetAllProperties(BindableCollection<ClassificationSearchResultContractV2> selectedClasses, string languageCode = null)
         {
             List<NodeItem> newNodes = new List<NodeItem>();
             foreach (var item in selectedClasses)
-            {
-                newNodes.Add(GetPropertiesInClassification(item.NamespaceUri, languageCode));
-            }
-            Classes = new BindableCollection<NodeItem>(newNodes);
-            //foreach (var item in newNodes)
-            //{
-            //    IEnumerable<NodeItem> nodes = _classes.Where(o => o.Name == item.Name);
-            //    if (nodes.Count() == 0)
-            //        _classes.Add(item);
-            //}
-            //for (int i = 0; i < _classes.Count; i++)
-            //{
-            //    var item = _classes[i];
-            //    IEnumerable<NodeItem> nodes = newNodes.Where(o => o.Name == item.Name);
-            //    if (nodes.Count() == 0)
-            //        _classes.RemoveAt(i);
-            //}
+                if (!_classes.Any(o => o.Name == item.Name))
+                    newNodes.Add(GetPropertiesInClassification(item.NamespaceUri, languageCode));
+            foreach (var item in newNodes)
+                if (!_classes.Any(o => o.Name == item.Name))
+                    _classes.Add(item);
+            List<NodeItem> removeList = new List<NodeItem>();
+            foreach (var item in _classes)
+                if (!selectedClasses.Any(o => o.Name == item.Name))
+                    removeList.Add(item);
+            foreach (var item in removeList)
+                _classes.Remove(item);
         }
         private NodeItem GetPropertiesInClassification(string namespaceUrl, string languageCode = null, bool? includChild = false)
         {
@@ -80,6 +70,12 @@ namespace IfcValidator.ViewModels
         #region Selection
         public void GetAllSelection(IList<NodeItem> selected)
         {
+            List<NodeItem> removeList = new List<NodeItem>();
+            foreach (var item in selected)
+                if (!_classes.Any(o => o.Name == item.ClassificationName))
+                    removeList.Add(item);
+            foreach (var item in removeList)
+                selected.Remove(item);
             SelectedClasses.Clear();
             if (selected.Count > 0)
             {
@@ -97,7 +93,6 @@ namespace IfcValidator.ViewModels
                 int propCount = 0; string propText;
                 foreach (var item in newNodes)
                 {
-                    //Debug.WriteLine(item.ToString());
                     if (item.Type == NodeItem.NodeItemType.Classification)
                     {
                         classCount++;

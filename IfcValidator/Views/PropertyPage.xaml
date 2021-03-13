@@ -18,6 +18,7 @@
                 <muxc:TreeViewItem
                     AutomationProperties.Name="{x:Bind Name}"
                     IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                    IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
                     ItemsSource="{x:Bind Children, Mode=TwoWay}">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon
@@ -40,23 +41,24 @@
                 <muxc:TreeViewItem
                     AutomationProperties.Name="{x:Bind Name}"
                     IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                    IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
                     ItemsSource="{x:Bind Children, Mode=TwoWay}">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon
                             Margin="0,0,10,0"
                             Style="{StaticResource SymbolIconStyle}"
-                            Symbol="Attach" />
+                            Symbol="Link" />
                         <TextBlock VerticalAlignment="Center" Text="{x:Bind Name}" />
                     </StackPanel>
                 </muxc:TreeViewItem>
             </DataTemplate>
             <DataTemplate x:Key="PropTemplate" x:DataType="model:NodeItem">
-                <muxc:TreeViewItem AutomationProperties.Name="{x:Bind Name}">
+                <muxc:TreeViewItem AutomationProperties.Name="{x:Bind Name}" IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon
                             Margin="0,0,10,0"
                             Style="{StaticResource SymbolIconStyle}"
-                            Symbol="Link" />
+                            Symbol="Attach" />
                         <TextBlock Text="{x:Bind Name}" />
                     </StackPanel>
                 </muxc:TreeViewItem>

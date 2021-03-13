@@ -11,6 +11,8 @@ namespace IfcValidator.Core.Models
         public static string OutputToken = "userOutputStorageFolderToken";
         public static string JsonExt = ".json";
         public static string DefaultConfig = "DefaultConfig";
+        public static string UndefinedPset = "Undefined PropertySet";
+
 
     }
 }

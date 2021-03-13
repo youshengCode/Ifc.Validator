@@ -21,6 +21,7 @@ namespace IfcValidator.Core.Models
             GetChildrenNode();
             GetRefIfcEntity();
             ParentName = null;
+            ClassificationName = classEntity.Name;
         }
         #endregion
 
@@ -124,12 +125,24 @@ namespace IfcValidator.Core.Models
                 List<NodeItem> propSetNodes = new List<NodeItem>();
                 foreach (var item in ClassEntity.ClassificationProperties)
                 {
-                    NodeItem newPropSet = CreatePropSetNode(item.PropertySet, Name, Name);
-                    if (Children.Where(o => o.Name == newPropSet.Name).Count() == 0)
-                        Children.Add(newPropSet);
-                    NodeItem propSet = Children.Where(o => o.Name == item.PropertySet).FirstOrDefault();
-                    if (propSet != null)
-                        propSet.Children.Add(CreatePropNode(item.Name, propSet.Name, Name));
+                    if (!string.IsNullOrEmpty(item.PropertySet))
+                    {
+                        NodeItem newPropSet = CreatePropSetNode(item.PropertySet, Name, Name);
+                        if (!Children.Any(o => o.Name == newPropSet.Name))
+                            Children.Add(newPropSet);
+                        NodeItem propSet = Children.Where(o => o.Name == item.PropertySet).FirstOrDefault();
+                        if (propSet != null)
+                            propSet.Children.Add(CreatePropNode(item.Name, propSet.Name, Name));
+                    }
+                    else
+                    {
+                        NodeItem newPropSet = CreatePropSetNode(LocalData.UndefinedPset, Name, Name);
+                        if (!Children.Any(o => o.Name == newPropSet.Name))
+                            Children.Add(newPropSet);
+                        NodeItem propSet = Children.Where(o => o.Name == LocalData.UndefinedPset).FirstOrDefault();
+                        if (propSet != null)
+                            propSet.Children.Add(CreatePropNode(item.Name, propSet.Name, Name));
+                    }
                 }
             }
         }
@@ -203,7 +216,8 @@ namespace IfcValidator.Core.Models
                             }
                     }
                     NodeItem newPropSetNode = restructedPropSet.Where(ps => ps.Name == prop.ParentName && ps.ClassificationName == prop.ClassificationName).FirstOrDefault();
-                    newPropSetNode.Children.Add(prop);
+                    if (newPropSetNode != null)
+                        newPropSetNode.Children.Add(prop);
                 }
             }
             // Add PropertySet in Classifications
@@ -216,7 +230,8 @@ namespace IfcValidator.Core.Models
                         restructedClasses.Add(CopyNode(classNode));
                     }
                 NodeItem newClassNode = restructedClasses.Where(x => x.Name == item.ClassificationName).FirstOrDefault();
-                newClassNode.Children.Add(item);
+                if (newClassNode != null) 
+                    newClassNode.Children.Add(item);
             }
             return restructedClasses;
         }

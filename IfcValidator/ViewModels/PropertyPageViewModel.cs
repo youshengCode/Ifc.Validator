@@ -20,7 +20,6 @@ namespace IfcValidator.ViewModels
             get { return _classes; }
             set { _classes = value; NotifyOfPropertyChange(() => Classes); }
         }
-
         private BindableCollection<NodeItem> _selectedClasses = new BindableCollection<NodeItem>();
         public BindableCollection<NodeItem> SelectedClasses
         {
@@ -44,28 +43,30 @@ namespace IfcValidator.ViewModels
         #region Initiation
         public PropertyPageViewModel()
         {
-
+            string url = "http://identifier.buildingsmart.org/uri/buildingsmart/ifc-4.3/class/IfcWall";
+            Classes.Add(GetPropertiesInClassification(url));
         }
-        public void GetAllProperties(BindableCollection<ClassificationSearchResultContractV2> selectedClasses)
+        public void GetAllProperties(BindableCollection<ClassificationSearchResultContractV2> selectedClasses, string languageCode = null)
         {
             List<NodeItem> newNodes = new List<NodeItem>();
             foreach (var item in selectedClasses)
             {
-                newNodes.Add(GetPropertiesInClassification(item.NamespaceUri));
+                newNodes.Add(GetPropertiesInClassification(item.NamespaceUri, languageCode));
             }
-            foreach (var item in newNodes)
-            {
-                IEnumerable<NodeItem> nodes = _classes.Where(o => o.Name == item.Name);
-                if (nodes.Count() == 0)
-                    _classes.Add(item);
-            }
-            for (int i = 0; i < _classes.Count; i++)
-            {
-                var item = _classes[i];
-                IEnumerable<NodeItem> nodes = newNodes.Where(o => o.Name == item.Name);
-                if (nodes.Count() == 0)
-                    _classes.RemoveAt(i);
-            }
+            Classes = new BindableCollection<NodeItem>(newNodes);
+            //foreach (var item in newNodes)
+            //{
+            //    IEnumerable<NodeItem> nodes = _classes.Where(o => o.Name == item.Name);
+            //    if (nodes.Count() == 0)
+            //        _classes.Add(item);
+            //}
+            //for (int i = 0; i < _classes.Count; i++)
+            //{
+            //    var item = _classes[i];
+            //    IEnumerable<NodeItem> nodes = newNodes.Where(o => o.Name == item.Name);
+            //    if (nodes.Count() == 0)
+            //        _classes.RemoveAt(i);
+            //}
         }
         private NodeItem GetPropertiesInClassification(string namespaceUrl, string languageCode = null, bool? includChild = false)
         {
@@ -79,49 +80,14 @@ namespace IfcValidator.ViewModels
         #region Selection
         public void GetAllSelection(IList<NodeItem> selected)
         {
-            BindableCollection<NodeItem> newNodes = new BindableCollection<NodeItem>();
             SelectedClasses.Clear();
             if (selected.Count > 0)
             {
-                foreach (var item in selected)
-                {
-                    IEnumerable<NodeItem> nodes = _classes.Where(o => o.Name == item.Name);
-                    if (nodes.Count() != 0)
-                        if (item.Type == NodeItem.NodeItemType.Classification)
-                            newNodes.Add(item);
-                }
-                foreach (var item in newNodes)
-                {
-                    foreach (var prop in item.Children)
-                        if (selected.Contains(prop))
-                            selected.Remove(prop);
-                }
-                foreach (var item in selected)
-                {
-                    IEnumerable<NodeItem> nodes = _classes.Where(o => o.Name == item.ParentName);
-                    if (nodes.Count() > 0)
-                    {
-                        NodeItem node = nodes.First();
-                        if (!newNodes.Contains(node))
-                        {
-                            node.Children = null;
-                            newNodes.Add(node);
-                        }
-                    }
-                }
-                foreach (var item in newNodes)
-                {
-                    IEnumerable<NodeItem> nodes = selected.Where(o => o.ParentName == item.Name);
-                    if (nodes.Count() > 0)
-                        foreach (var node in nodes)
-                        {
-                            node.Type = NodeItem.NodeItemType.Property;
-                            item.Children.Add(node);
-                        }
-                }
+                BindableCollection<NodeItem> newNodes = new BindableCollection<NodeItem>(
+                    NodeItem.RestructureFlatNodes(_classes.ToList(), selected));
+                SelectedClasses = newNodes;
             }
-            UpdatePropNotice(newNodes);
-            SelectedClasses = newNodes;
+            UpdatePropNotice(_selectedClasses);
         }
         private void UpdatePropNotice(BindableCollection<NodeItem> newNodes)
         {
@@ -135,8 +101,9 @@ namespace IfcValidator.ViewModels
                     if (item.Type == NodeItem.NodeItemType.Classification)
                     {
                         classCount++;
-                        foreach (var prop in item.Children)
-                            propCount++;
+                        foreach (var propSet in item.Children)
+                            foreach (var prop in propSet.Children)
+                                propCount++;
                     }
                 }
                 if (classCount > 1)

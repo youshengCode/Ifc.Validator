@@ -39,11 +39,22 @@ namespace IfcValidator.Views
     class NodeTemplateSelector : DataTemplateSelector
     {
         public DataTemplate ClassTemplate { get; set; }
+        public DataTemplate PropSetTemplate { get; set; }
         public DataTemplate PropTemplate { get; set; }
         protected override DataTemplate SelectTemplateCore(object item)
         {
             var nodeItem = (NodeItem)item;
-            return nodeItem.Type == NodeItem.NodeItemType.Classification ? ClassTemplate : PropTemplate;
+            switch (nodeItem.Type)
+            {
+                case NodeItem.NodeItemType.Classification:
+                    return ClassTemplate;
+                case NodeItem.NodeItemType.PropertySet:
+                    return PropSetTemplate;
+                case NodeItem.NodeItemType.Property:
+                    return PropTemplate;
+                default:
+                    return null;
+            }
         }
     }
 }

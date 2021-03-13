@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Linq;
+using System.Diagnostics;
 
 namespace IfcValidator.Core.Models
 {
     public class NodeItem : INotifyPropertyChanged
     {
+        #region Constructor
         public NodeItem() { }
         public NodeItem(ClassificationContractV2 classEntity)
         {
@@ -19,20 +22,17 @@ namespace IfcValidator.Core.Models
             GetRefIfcEntity();
             ParentName = null;
         }
-        public NodeItem(string name, string parentName, string propertyDomainName)
-        {
-            Name = name;
-            Type = NodeItemType.Property;
-            ParentName = parentName;
-            PropertyDomainName = propertyDomainName;
-        }
+        #endregion
+
+        #region Attributes
         public string Name { get; set; }
         public string RefIfcEntity { get; set; }
         public string ParentName { get; set; }
-        public string PropertyDomainName { get; set; }
+        public string ClassificationName { get; set; }
         public int ExistCount { get; set; } = 0;
+
         public NodeItemType Type { get; set; }
-        public enum NodeItemType { Classification, Property };
+        public enum NodeItemType { Classification, PropertySet, Property };
         public ClassificationContractV2 ClassEntity { get; set; }
 
         private ObservableCollection<NodeItem> _children;
@@ -74,18 +74,64 @@ namespace IfcValidator.Core.Models
                 }
             }
         }
+        #endregion
 
+        #region Private Methode
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        private static NodeItem CreatePropSetNode(string name, string parentName, string classificationName)
+        {
+            NodeItem node = new NodeItem();
+            node.Name = name;
+            node.Type = NodeItemType.PropertySet;
+            node.ParentName = parentName;
+            node.ClassificationName = classificationName;
+            node.IsExpanded = false;
+            return node;
+        }
+        private static NodeItem CreatePropNode(string name, string parentName, string classificationName)
+        {
+            NodeItem node = new NodeItem();
+            node.Name = name;
+            node.Type = NodeItemType.Property;
+            node.ParentName = parentName;
+            node.ClassificationName = classificationName;
+            return node;
+        }
+        private static NodeItem CopyNode(NodeItem node, bool withChildren = false)
+        {
+            NodeItem newNode = new NodeItem();
+            newNode.Name = node.Name;
+            newNode.Type = node.Type;
+            newNode.RefIfcEntity = node.RefIfcEntity;
+            newNode.ParentName = node.ParentName;
+            newNode.ClassificationName = node.ClassificationName;
+            newNode.IsExpanded = node.IsExpanded;
+            newNode.IsSelected = node.IsSelected;
+            newNode.ExistCount = node.ExistCount;
+            newNode.ClassEntity = node.ClassEntity;
+            if (withChildren)
+                newNode.Children = node.Children;
+            return newNode;
+        }
         private void GetChildrenNode()
         {
             if (ClassEntity.ClassificationProperties != null)
+            {
+                List<NodeItem> propSetNodes = new List<NodeItem>();
                 foreach (var item in ClassEntity.ClassificationProperties)
-                    Children.Add(new NodeItem(item.Name, Name, item.PropertyDomainName));
+                {
+                    NodeItem newPropSet = CreatePropSetNode(item.PropertySet, Name, Name);
+                    if (Children.Where(o => o.Name == newPropSet.Name).Count() == 0)
+                        Children.Add(newPropSet);
+                    NodeItem propSet = Children.Where(o => o.Name == item.PropertySet).FirstOrDefault();
+                    if (propSet != null)
+                        propSet.Children.Add(CreatePropNode(item.Name, propSet.Name, Name));
+                }
+            }
         }
         private void GetRefIfcEntity()
         {
@@ -95,21 +141,85 @@ namespace IfcValidator.Core.Models
                 {
                     entities += $" {item}";
                 }
-            if(!string.IsNullOrEmpty(entities))
+            if (!string.IsNullOrEmpty(entities))
                 RefIfcEntity = $"Related: {entities}";
         }
+        #endregion
 
+        #region Public Methode
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append($"NodeItem ").Append(Name).Append("{\n");
+            sb.Append($"{Name}  {Type}").Append("{\n");
             foreach (var item in Children)
             {
-                sb.Append("  Props: ").Append(item.Name).Append("\n");
+                sb.Append($"  {item.Name}  {item.Type}").Append("\n");
             }
             sb.Append("}\n");
             return sb.ToString();
         }
+        public static List<NodeItem> RestructureFlatNodes(List<NodeItem> allNodes, IList<NodeItem> selected)
+        {
+            List<NodeItem> restructedClasses = new List<NodeItem>();
+            List<NodeItem> restructedPropSet = new List<NodeItem>();
+            // Classification selected - clear all subnodes
+            foreach (var item in selected)
+            {
+                if (item.Type == NodeItemType.Classification)
+                    restructedClasses.Add(item);
+            }
+            foreach (var item in restructedClasses)
+            {
+                foreach (var node in selected.Where(x => x.Type == NodeItemType.Classification).ToList())
+                    selected.Remove(node);
+                foreach (var node in selected.Where(x => x.ClassificationName == item.Name).ToList())
+                    selected.Remove(node);
+            }
+            // PropertySet selected - clear all subnodes
+            foreach (var item in selected)
+            {
+                if (item.Type == NodeItemType.PropertySet)
+                    restructedPropSet.Add(item);
+            }
+            foreach (var item in restructedPropSet)
+            {
+                foreach (var node in selected.Where(x => x.Type == NodeItemType.PropertySet).ToList())
+                    selected.Remove(node);
+                foreach (var node in selected.Where(x => x.ClassificationName == item.ClassificationName && x.ParentName == item.Name).ToList())
+                    selected.Remove(node);
+            }
+            // Add Property in PropertySet
+            foreach (var prop in selected)
+            {
+                if (prop.Type == NodeItemType.Property)
+                {
+                    foreach (var node in allNodes)
+                    {
+                        NodeItem propSetNode = node.Children.Where(ps => ps.Name == prop.ParentName && ps.ClassificationName == prop.ClassificationName).FirstOrDefault();
+                        if (propSetNode != null)
+                            if (!restructedPropSet.Any(ps => ps.Name == propSetNode.Name && ps.ClassificationName == propSetNode.ClassificationName))
+                            {
+                                restructedPropSet.Add(CopyNode(propSetNode));
+                            }
+                    }
+                    NodeItem newPropSetNode = restructedPropSet.Where(ps => ps.Name == prop.ParentName && ps.ClassificationName == prop.ClassificationName).FirstOrDefault();
+                    newPropSetNode.Children.Add(prop);
+                }
+            }
+            // Add PropertySet in Classifications
+            foreach (var item in restructedPropSet)
+            {
+                NodeItem classNode = allNodes.Where(x => x.Name == item.ClassificationName).FirstOrDefault();
+                if (classNode != null)
+                    if (!restructedClasses.Any(x => x.Name == classNode.Name))
+                    {
+                        restructedClasses.Add(CopyNode(classNode));
+                    }
+                NodeItem newClassNode = restructedClasses.Where(x => x.Name == item.ClassificationName).FirstOrDefault();
+                newClassNode.Children.Add(item);
+            }
+            return restructedClasses;
+        }
+        #endregion
     }
-
 }

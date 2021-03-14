@@ -18,6 +18,23 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
+    <Style
+        x:Key="DetailTitleStyle"
+        BasedOn="{StaticResource BaseTextBlockStyle}"
+        TargetType="TextBlock">
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style
+        x:Key="DetailBodyStyle"
+        BasedOn="{StaticResource BaseTextBlockStyle}"
+        TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemChromeAltLowColor}" />
+    </Style>
+
     <Thickness x:Key="TextControlBorderThemeThickness">2</Thickness>
     <Style x:Key="TextBoxCustomStyle" TargetType="TextBox">
         <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />

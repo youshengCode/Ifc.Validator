@@ -1,0 +1,128 @@
+﻿<Page
+    x:Class="IfcValidator.Views.ReportPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:IfcValidator.Models"
+    d:DesignHeight="200"
+    d:DesignWidth="700"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/InputPage.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/ValidatorPage.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="ReportTemplate" x:DataType="models:ReportCard">
+                <Grid
+                    Padding="{StaticResource SmallLeftTopRightBottomMargin}"
+                    Background="{StaticResource SystemControlAcrylicElementBrush}"
+                    CornerRadius="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <TextBlock
+                            Margin="{StaticResource XXSmallTopMargin}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontWeight="Normal"
+                            Style="{ThemeResource DetailTitleStyle}"
+                            Text="{x:Bind FileName}" />
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom">
+                            <TextBlock
+                                Margin="{StaticResource XXSmallTopMargin}"
+                                Style="{ThemeResource DetailBodyStyle}"
+                                Text="{x:Bind OriginalInfo}"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="{StaticResource XXSmallTopMargin}"
+                                Style="{ThemeResource DetailBodyStyle}"
+                                Text="{x:Bind TraitedInfo}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Orientation="Vertical">
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                FontSize="70"
+                                FontWeight="ExtraLight"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Style="{ThemeResource DetailBodyStyle}"
+                                Text="{x:Bind Keyword}" />
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                FontSize="18"
+                                FontWeight="ExtraLight"
+                                Style="{ThemeResource DetailBodyStyle}"
+                                Text="{x:Bind KeywordDescription}" />
+                        </StackPanel>
+                    </Grid>
+                    <FontIcon
+                        Grid.RowSpan="2"
+                        Margin="0,5,5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        FontSize="80"
+                        Glyph="&#xEB05;"
+                        Opacity="0.02"
+                        Style="{StaticResource FileFontIcon}" />
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid x:Name="ContentArea">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Uid="Tool_ReportTitle"
+                Grid.Column="0"
+                Style="{StaticResource ValidatorFeildTitle}" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <controls:AdaptiveGridView
+                Grid.Column="0"
+                Margin="0,10"
+                DesiredWidth="400"
+                ItemTemplate="{StaticResource ReportTemplate}"
+                ItemsSource="{x:Bind ViewModel.Reports}"
+                SelectionMode="Single"
+                StretchContentForSingleRow="False">
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="0,0,10,10" />
+                    </Style>
+                </GridView.ItemContainerStyle>
+            </controls:AdaptiveGridView>
+        </Grid>
+    </Grid>
+
+</Page>

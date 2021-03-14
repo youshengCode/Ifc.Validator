@@ -17,11 +17,12 @@ namespace IfcValidator.Models
             FilePath = path;
             Size = FileHelper.GetFileSize(path);
         }
-        public UserFile(StorageFile storageFile, ulong size, DateTime modifiedTime)
+        public UserFile(StorageFile storageFile, ulong size, DateTime modifiedTime, string token = null)
         {
             StorageFile = storageFile;
             Name = storageFile.Name;
             FilePath = storageFile.Path;
+            Token = token;
             Size = FileHelper.ConvertFileSize(size);
             ModifiedTime = modifiedTime;
             DisplayTime = string.Format("{0} {1}", ModifiedTime.ToShortDateString(), ModifiedTime.ToShortTimeString());
@@ -31,6 +32,7 @@ namespace IfcValidator.Models
         public string DisplayTime { get; set; }
         public string Size { get; set; }
         public string FilePath { get; set; }
+        public string Token { get; set; }
         public StorageFile StorageFile { get; set; }
         private DateTime ModifiedTime { get; set; }
     }

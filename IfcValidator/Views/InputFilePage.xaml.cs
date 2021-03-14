@@ -47,16 +47,11 @@ namespace IfcValidator.Views
                     if (ViewModel.IsSingleInput)
                     {
                         if(ViewModel.InputFiles.Count == 0)
-                        {
-                            var inputFile = items.OfType<StorageFile>().First();
-                            AddStorageFile(inputFile);
-                        }
+                            AddStorageFile(items.OfType<StorageFile>().First());
                     }
                     else
-                    {
                         foreach (var inputFile in items.OfType<StorageFile>())
-                        { AddStorageFile(inputFile); }
-                    }
+                            AddStorageFile(inputFile);
                 }
             }
         }
@@ -76,7 +71,8 @@ namespace IfcValidator.Views
             {
                 var inputFiles = await MarsFileManager.MultipleFilesPicker();
                 if (inputFiles != null)
-                    foreach (StorageFile file in inputFiles) { AddStorageFile(file); }
+                    foreach (var file in inputFiles)
+                        AddStorageFile(file);
             }
         }
 
@@ -87,6 +83,7 @@ namespace IfcValidator.Views
 
         private async void AddStorageFile(StorageFile inputFile)
         {
+            await MarsFileManager.CopyFile(inputFile);
             Windows.Storage.FileProperties.BasicProperties basicProperties = await inputFile.GetBasicPropertiesAsync();
             UserFile file = new UserFile(inputFile, basicProperties.Size, basicProperties.DateModified.DateTime);
             if (LocalData.AccepteFormat.Contains(Path.GetExtension(file.Name)))

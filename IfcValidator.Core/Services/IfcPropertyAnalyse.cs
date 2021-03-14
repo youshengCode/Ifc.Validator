@@ -8,12 +8,14 @@ using Serilog;
 using Xbim.Common;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.Interfaces;
+using System.Diagnostics;
+using System.IO;
 
 namespace IfcValidator.Core.Services
 {
     public class IfcPropertyAnalyse
     {
-        public static List<NodeItem> PropertyAnalyse(string inputFileName, List<NodeItem> nodes)
+        public static List<NodeItem> PropertyAnalyse(string filePath, List<NodeItem> nodes)
         {
             IfcStore.ModelProviderFactory.UseMemoryModelProvider();
             Log.Logger = new LoggerConfiguration()
@@ -21,17 +23,17 @@ namespace IfcValidator.Core.Services
                .WriteTo.Console()
                .CreateLogger();
             XbimLogging.LoggerFactory.AddSerilog();
-            Console.WriteLine($"{inputFileName} in analysing");
+            Debug.WriteLine($"{filePath} in analysing");
 
-            using (var model = IfcStore.Open(inputFileName))
+            using (var model = IfcStore.Open(filePath))
             {
-                Console.WriteLine("IFC Schema", model.SchemaVersion.ToString());
+                Debug.WriteLine("IFC Schema", model.SchemaVersion.ToString());
                 var products = model.Instances.OfType<IfcProduct>();
                 foreach (var product in products)
                     AnalyseProperties(product, nodes);
             }
-            foreach (var item in nodes)
-                Console.WriteLine(item.ToString());
+            //foreach (var item in nodes)
+            //    Debug.WriteLine(item.ToString());
             return nodes;
         }
 
@@ -57,8 +59,8 @@ namespace IfcValidator.Core.Services
                 if (classNode.Children.Any(ps => ps.Name == ifcPropertySet.Name))
                 {
                     NodeItem propSetNode = classNode.Children.Where(ps => ps.Name == ifcPropertySet.Name).FirstOrDefault();
-                    // Remove duplication
                     List<IIfcPhysicalQuantity> ifcProperties = new List<IIfcPhysicalQuantity>();
+                    // Remove duplication
                     foreach (var ifcProperty in ifcPropertySet.Quantities)
                         if (!ifcProperties.Any(p => p.Name == ifcProperty.Name))
                             ifcProperties.Add(ifcProperty);
@@ -84,7 +86,12 @@ namespace IfcValidator.Core.Services
                 if (classNode.Children.Any(ps => ps.Name == ifcPropertySet.Name))
                 {
                     NodeItem propSetNode = classNode.Children.Where(ps => ps.Name == ifcPropertySet.Name).FirstOrDefault();
+                    List<IIfcProperty> ifcProperties = new List<IIfcProperty>();
+                    // Remove duplication
                     foreach (var ifcProperty in ifcPropertySet.HasProperties)
+                        if (!ifcProperties.Any(p => p.Name == ifcProperty.Name))
+                            ifcProperties.Add(ifcProperty);
+                    foreach (var ifcProperty in ifcProperties)
                     {
                         if (propSetNode.Children.Any(p => p.Name == ifcProperty.Name))
                         {

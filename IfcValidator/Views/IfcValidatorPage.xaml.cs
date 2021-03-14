@@ -17,6 +17,7 @@ namespace IfcValidator.Views
         private ClassificationPage classificationPage = new ClassificationPage();
         private PropertyPage propertyPage = new PropertyPage();
         private InputFilePage inputFilePage = new InputFilePage();
+        private ReportPage reportPage = new ReportPage();
         public IfcValidatorPage()
         {
             InitializeComponent();
@@ -53,9 +54,9 @@ namespace IfcValidator.Views
                 case 3:
                     if (inputFilePage.ViewModel.InputFiles.Count > 0)
                     {
+                        reportPage.ViewModel.LoadReport(inputFilePage.ViewModel.InputFiles, propertyPage.ViewModel.SelectedClasses);
                         StepControl.Content = new StepUserControl(ViewModel.MoveSteps());
-                        //TODO: ReportPage
-                        Workspace1.Content = null;
+                        Workspace1.Content = reportPage;
                     }
                     else
                         NoticeShow(ResourceExtensions.GetLocalized("ValidatorPage_Notice_NoFile"));

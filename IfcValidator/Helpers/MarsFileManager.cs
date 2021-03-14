@@ -55,13 +55,14 @@ namespace IfcValidator.Helpers
             FileOpenPicker openPicker = new FileOpenPicker();
             openPicker.ViewMode = PickerViewMode.List;
             //openPicker.SuggestedStartLocation = PickerLocationId.Downloads;
-            foreach(string format in LocalData.AccepteFormat)
+            foreach (string format in LocalData.AccepteFormat)
             {
                 openPicker.FileTypeFilter.Add(format);
             }
             StorageFile file = await openPicker.PickSingleFileAsync();
             if (file != null)
             {
+                //Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(file);
                 return file;
             }
             else { return null; }
@@ -77,11 +78,9 @@ namespace IfcValidator.Helpers
             }
             var files = await openPicker.PickMultipleFilesAsync();
             if (files != null)
-            {
-                if (files.Count > 0) { return files.ToList<StorageFile>(); }
-                else { return null; }
-            }
-            else { return null; }
+                if (files.Count > 0)
+                    return files.ToList<StorageFile>();
+            return null;
         }
         #endregion
 
@@ -118,6 +117,23 @@ namespace IfcValidator.Helpers
             #endregion
         }
 
+        public async static Task<StorageFile> CopyFile(StorageFile file)
+        {
+            StorageFile newFile = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync(file.Name, CreationCollisionOption.ReplaceExisting);
+            var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            ulong size = stream.Size;
+            using (var inputStream = stream.GetInputStreamAt(0))
+            {
+                using (var dataReader = new Windows.Storage.Streams.DataReader(inputStream))
+                {
+                    uint numBytesLoaded = await dataReader.LoadAsync((uint)size);
+                    string text = dataReader.ReadString(numBytesLoaded);
+                    await FileIO.WriteTextAsync(newFile, text);
+                }
+            }
+            return newFile;
+        }
+
         public async static Task SaveFileToOutputFolder(string fileName)
         {
             Windows.Storage.StorageFolder newFolder = await Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.GetFolderAsync(LocalData.OutputToken);
@@ -135,7 +151,7 @@ namespace IfcValidator.Helpers
         public async static Task SendEmail(string emailAddress = null, string subject = null, string messageBody = null, List<StorageFile> attachmentFiles = null)
         {
             Windows.ApplicationModel.Email.EmailMessage emailMessage = new Windows.ApplicationModel.Email.EmailMessage();
-            if(emailAddress != null)
+            if (emailAddress != null)
             { emailMessage.To.Add(new Windows.ApplicationModel.Email.EmailRecipient(emailAddress)); }
             if (subject != null)
             { emailMessage.Subject = subject; }
@@ -143,7 +159,7 @@ namespace IfcValidator.Helpers
             { emailMessage.Body = messageBody; }
             if (attachmentFiles != null)
             {
-                foreach(StorageFile attachmentFile in attachmentFiles)
+                foreach (StorageFile attachmentFile in attachmentFiles)
                 {
                     var stream = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(attachmentFile);
                     var attachment = new Windows.ApplicationModel.Email.EmailAttachment(attachmentFile.Name, stream);

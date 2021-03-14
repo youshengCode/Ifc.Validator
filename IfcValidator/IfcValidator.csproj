@@ -149,6 +149,7 @@
     <Compile Include="Models\DragDropData.cs" />
     <Compile Include="Models\DragDropStartingData.cs" />
     <Compile Include="Models\File.cs" />
+    <Compile Include="Models\ReportCard.cs" />
     <Compile Include="Models\Step.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />
@@ -156,9 +157,11 @@
     <Compile Include="Services\DragAndDrop\DropConfiguration.cs" />
     <Compile Include="Services\DragAndDrop\ListViewDropConfiguration.cs" />
     <Compile Include="Services\DragAndDrop\VisualDropConfiguration.cs" />
+    <Compile Include="Services\ReportService.cs" />
     <Compile Include="Services\StepServices.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\ClassificationPageViewModel.cs" />
+    <Compile Include="ViewModels\ReportPageViewModel.cs" />
     <Compile Include="ViewModels\InputFilePageViewModel.cs" />
     <Compile Include="ViewModels\PropertyPageViewModel.cs" />
     <Compile Include="ViewModels\IfcValidatorPageViewModel.cs" />
@@ -180,6 +183,9 @@
     </Compile>
     <Compile Include="UserControls\StepUserControl.xaml.cs">
       <DependentUpon>StepUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportPage.xaml.cs">
+      <DependentUpon>ReportPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +254,10 @@
     <Page Include="UserControls\StepUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ReportPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

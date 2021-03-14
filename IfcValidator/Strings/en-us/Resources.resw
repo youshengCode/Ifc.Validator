@@ -234,4 +234,16 @@
   <data name="ClassificationPage_RemoveAllButton.Content" xml:space="preserve">
     <value>Clear All</value>
   </data>
+  <data name="ReportInfo_EntityFound" xml:space="preserve">
+    <value>related entities found</value>
+  </data>
+  <data name="ReportInfo_Presence" xml:space="preserve">
+    <value>property presence</value>
+  </data>
+  <data name="ReportInfo_PropertyFound" xml:space="preserve">
+    <value>actuel properties found in total</value>
+  </data>
+  <data name="Tool_ReportTitle.Text" xml:space="preserve">
+    <value>Report</value>
+  </data>
 </root>

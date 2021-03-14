@@ -146,6 +146,7 @@ namespace IfcValidator.Core.Models
                 }
             }
         }
+
         private void GetRefIfcEntity()
         {
             string entities = null;
@@ -163,10 +164,12 @@ namespace IfcValidator.Core.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append($"{Name}  {Type}").Append("{\n");
-            foreach (var item in Children)
+            sb.Append($"{Name}  {Type} - {ExistCount}").Append("{\n");
+            foreach (var propSet in Children)
             {
-                sb.Append($"  {item.Name}  {item.Type}").Append("\n");
+                sb.Append($"  {propSet.Name}").Append("\n");
+                foreach (var prop in propSet.Children)
+                    sb.Append($"      {prop.Name}  - {prop.ExistCount}").Append("\n");
             }
             sb.Append("}\n");
             return sb.ToString();

@@ -229,7 +229,7 @@
     <value>Report</value>
   </data>
   <data name="PropertyInfo.Text" xml:space="preserve">
-    <value>*For the non-IFC domain, only the classification with a Related tag and a defined PropertySet could be verified in an IFC file.</value>
+    <value>*Still version beta for the non-IFC domain classifications.</value>
   </data>
   <data name="ClassificationPage_RemoveAllButton.Label" xml:space="preserve">
     <value>Clear All</value>

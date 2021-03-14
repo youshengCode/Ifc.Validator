@@ -213,7 +213,8 @@
                         VerticalAlignment="Center"
                         Background="Transparent"
                         DefaultLabelPosition="Right"
-                        IsOpen="False">
+                        IsOpen="False"
+                        Visibility="Collapsed">
                         <AppBarButton
                             x:Uid="Tool_SaveButton"
                             Click="SaveButton_Click"

@@ -45,11 +45,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="0">
             <TextBlock x:Uid="ClassificationPage_Domain" Style="{StaticResource ValidatorFeildTitle}" />
             <StackPanel Orientation="Horizontal">
                 <ComboBox
@@ -61,28 +59,19 @@
                 <TextBlock Style="{StaticResource ValidatorRightNotice}" Text="{x:Bind ViewModel.DefaultLanguage, Mode=TwoWay}" />
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="2">
+        <StackPanel Grid.Row="1">
             <StackPanel Orientation="Horizontal">
                 <TextBlock x:Uid="ClassificationPage_Classification" Style="{StaticResource ValidatorFeildTitle}" />
                 <TextBlock Style="{StaticResource ValidatorRightNotice}" Text="{x:Bind ViewModel.ClassificationNotice, Mode=TwoWay}" />
             </StackPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
                 <ComboBox
                     x:Uid="ClassificationPage_LanguageComboBox"
-                    Grid.Column="0"
                     ItemsSource="{x:Bind ViewModel.Languages, Mode=OneTime}"
                     SelectedItem="{x:Bind ViewModel.SelectedLanguage, Mode=TwoWay}"
                     SelectionChanged="LanguageSelectChange"
                     Style="{StaticResource ValidatorComboBox}" />
-                <Border Grid.Column="1" Style="{StaticResource SearchBoxBorder}">
+                <Border Height="32" Style="{StaticResource SearchBoxBorder}">
                     <StackPanel Orientation="Horizontal">
                         <Button Click="SearchButtonClick" Style="{StaticResource SearchIcon}" />
                         <TextBox
@@ -93,25 +82,46 @@
                             Text="{x:Bind ViewModel.SearchText, Mode=TwoWay}" />
                     </StackPanel>
                 </Border>
+            </StackPanel>
+        </StackPanel>
+        <Grid
+            Grid.RowSpan="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal">
                 <TextBlock
-                    Grid.Column="3"
+                    Margin="10,0"
+                    VerticalAlignment="Center"
                     Style="{StaticResource ValidatorRightNotice}"
                     Text="{x:Bind ViewModel.SelectedNotice, Mode=TwoWay}" />
-                <Button
-                    x:Uid="ClassificationPage_RemoveButton"
-                    Grid.Column="4"
-                    Click="RemoveSelectionButton_Click"
-                    Style="{StaticResource RightButton}"
-                    Visibility="{x:Bind ViewModel.HasSelection, Mode=TwoWay, Converter={StaticResource BoolToVisible}}" />
-                <Button
-                    x:Uid="ClassificationPage_RemoveAllButton"
-                    Grid.Column="5"
-                    Click="RemoveAllButton_Click"
-                    Style="{StaticResource RightButton}"
-                    Visibility="{x:Bind ViewModel.HasSelection, Mode=TwoWay, Converter={StaticResource BoolToVisible}}" />
-            </Grid>
-        </StackPanel>
-        <Grid Grid.Row="3">
+                <CommandBar
+                    Width="Auto"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    DefaultLabelPosition="Right"
+                    IsOpen="False">
+                    <AppBarButton
+                        x:Uid="ClassificationPage_RemoveButton"
+                        Click="RemoveSelectionButton_Click"
+                        Icon="Delete"
+                        IsEnabled="{x:Bind ViewModel.HasSelection, Mode=OneWay}">
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Delete" />
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <AppBarButton
+                        x:Uid="ClassificationPage_RemoveAllButton"
+                        Click="RemoveAllButton_Click"
+                        Icon="Undo"
+                        IsEnabled="{x:Bind ViewModel.HasSelection, Mode=OneWay}">
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Delete" Modifiers="Control" />
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                </CommandBar>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="12" />

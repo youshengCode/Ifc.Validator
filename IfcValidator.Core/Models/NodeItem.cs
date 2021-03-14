@@ -102,22 +102,6 @@ namespace IfcValidator.Core.Models
             node.ClassificationName = classificationName;
             return node;
         }
-        private static NodeItem CopyNode(NodeItem node, bool withChildren = false)
-        {
-            NodeItem newNode = new NodeItem();
-            newNode.Name = node.Name;
-            newNode.Type = node.Type;
-            newNode.RefIfcEntity = node.RefIfcEntity;
-            newNode.ParentName = node.ParentName;
-            newNode.ClassificationName = node.ClassificationName;
-            newNode.IsExpanded = node.IsExpanded;
-            newNode.IsSelected = node.IsSelected;
-            newNode.ExistCount = node.ExistCount;
-            newNode.ClassEntity = node.ClassEntity;
-            if (withChildren)
-                newNode.Children = node.Children;
-            return newNode;
-        }
         private void GetChildrenNode()
         {
             if (ClassEntity.ClassificationProperties != null)
@@ -174,6 +158,30 @@ namespace IfcValidator.Core.Models
             sb.Append("}\n");
             return sb.ToString();
         }
+        public static NodeItem CopyNode(NodeItem node, bool withChildren = true)
+        {
+            NodeItem newNode = new NodeItem();
+            newNode.Name = node.Name;
+            newNode.Type = node.Type;
+            newNode.RefIfcEntity = node.RefIfcEntity;
+            newNode.ParentName = node.ParentName;
+            newNode.ClassificationName = node.ClassificationName;
+            newNode.IsExpanded = node.IsExpanded;
+            newNode.IsSelected = node.IsSelected;
+            newNode.ExistCount = node.ExistCount;
+            newNode.ClassEntity = node.ClassEntity;
+            if (withChildren)
+                foreach (var item in node.Children)
+                    newNode.Children.Add(CopyNode(item));
+            return newNode;
+        }
+
+        public static void ExpandAll(NodeItem node)
+        {
+            node.IsExpanded = true;
+            foreach (var item in node.Children)
+                ExpandAll(item);
+        }
         public static List<NodeItem> RestructureFlatNodes(List<NodeItem> allNodes, IList<NodeItem> selected)
         {
             List<NodeItem> restructedClasses = new List<NodeItem>();
@@ -215,7 +223,7 @@ namespace IfcValidator.Core.Models
                         if (propSetNode != null)
                             if (!restructedPropSet.Any(ps => ps.Name == propSetNode.Name && ps.ClassificationName == propSetNode.ClassificationName))
                             {
-                                restructedPropSet.Add(CopyNode(propSetNode));
+                                restructedPropSet.Add(CopyNode(propSetNode, false));
                             }
                     }
                     NodeItem newPropSetNode = restructedPropSet.Where(ps => ps.Name == prop.ParentName && ps.ClassificationName == prop.ClassificationName).FirstOrDefault();
@@ -230,7 +238,7 @@ namespace IfcValidator.Core.Models
                 if (classNode != null)
                     if (!restructedClasses.Any(x => x.Name == classNode.Name))
                     {
-                        restructedClasses.Add(CopyNode(classNode));
+                        restructedClasses.Add(CopyNode(classNode, false));
                     }
                 NodeItem newClassNode = restructedClasses.Where(x => x.Name == item.ClassificationName).FirstOrDefault();
                 if (newClassNode != null) 

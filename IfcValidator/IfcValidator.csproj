@@ -149,6 +149,7 @@
     <Compile Include="Models\DragDropData.cs" />
     <Compile Include="Models\DragDropStartingData.cs" />
     <Compile Include="Models\File.cs" />
+    <Compile Include="Models\NodeTemplateSelector.cs" />
     <Compile Include="Models\ReportCard.cs" />
     <Compile Include="Models\Step.cs" />
     <Compile Include="Services\ActivationService.cs" />

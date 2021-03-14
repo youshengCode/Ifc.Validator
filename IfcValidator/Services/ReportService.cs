@@ -21,8 +21,14 @@ namespace IfcValidator.Services
             List<ReportCard> reports = new List<ReportCard>();
             foreach (var file in InputFiles)
             {
+                // Recreate the list for avoid the notifychange of NodeItem
+                List<NodeItem> nodes = new List<NodeItem>();
+                foreach (var node in selectedNodes)
+                    nodes.Add(NodeItem.CopyNode(node));
+                foreach (var node in nodes)
+                    NodeItem.ExpandAll(node);
                 string fullPath = Path.Combine(ApplicationData.Current.LocalCacheFolder.Path, file.Name);
-                List<NodeItem> result = IfcPropertyAnalyse.PropertyAnalyse(fullPath, selectedNodes.ToList());
+                List<NodeItem> result = IfcPropertyAnalyse.PropertyAnalyse(fullPath, nodes);
                 ReportCard report = new ReportCard(result, file.Name);
                 reports.Add(report);
             }

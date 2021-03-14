@@ -27,7 +27,7 @@ namespace IfcValidator.Core.Services
 
             using (var model = IfcStore.Open(filePath))
             {
-                Debug.WriteLine("IFC Schema", model.SchemaVersion.ToString());
+                //Debug.WriteLine("IFC Schema", model.SchemaVersion.ToString());
                 var products = model.Instances.OfType<IfcProduct>();
                 foreach (var product in products)
                     AnalyseProperties(product, nodes);

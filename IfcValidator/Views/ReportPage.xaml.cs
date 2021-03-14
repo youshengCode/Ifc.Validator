@@ -1,6 +1,8 @@
-﻿using IfcValidator.ViewModels;
+﻿using IfcValidator.Models;
+using IfcValidator.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -23,6 +25,17 @@ namespace IfcValidator.Views
         public ReportPage()
         {
             InitializeComponent();
+        }
+
+        private void reportList_ItemClicked(object sender, ItemClickEventArgs e)
+        {
+            ReportCard item = (ReportCard)e.ClickedItem;
+            ViewModel.LoadSelectedReport(item);
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

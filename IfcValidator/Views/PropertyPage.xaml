@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:IfcValidator.Core.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:views="using:IfcValidator.Views"
+    xmlns:uimodel="using:IfcValidator.Models"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -63,7 +63,7 @@
                     </StackPanel>
                 </muxc:TreeViewItem>
             </DataTemplate>
-            <views:NodeTemplateSelector
+            <uimodel:NodeTemplateSelector
                 x:Key="NodeTemplateSelector"
                 ClassTemplate="{StaticResource ClassTemplate}"
                 PropSetTemplate="{StaticResource PropSetTemplate}"

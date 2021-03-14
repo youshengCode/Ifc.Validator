@@ -28,16 +28,31 @@
                     Grid.Column="1"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
-                    <Button
-                        x:Uid="ValidatorPage_LastButton"
-                        Click="LastBtn_Click"
-                        Style="{StaticResource RightActionButton}"
-                        Visibility="{x:Bind ViewModel.ShowLastButton, Mode=TwoWay, Converter={StaticResource BoolToVisible}}" />
-                    <Button
-                        x:Uid="ValidatorPage_NextButton"
-                        Click="NextBtn_Click"
-                        Style="{StaticResource RightActionButton}"
-                        Visibility="{x:Bind ViewModel.ShowNextButton, Mode=TwoWay, Converter={StaticResource BoolToVisible}}" />
+                    <CommandBar
+                        Width="Auto"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        DefaultLabelPosition="Right"
+                        IsOpen="False">
+                        <AppBarButton
+                            x:Uid="ValidatorPage_LastButton"
+                            Click="LastBtn_Click"
+                            Icon="Back"
+                            IsEnabled="{x:Bind ViewModel.IsLastButtonEnable, Mode=OneWay}">
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Left" Modifiers="Control" />
+                            </AppBarButton.KeyboardAccelerators>
+                        </AppBarButton>
+                        <AppBarButton
+                            x:Uid="ValidatorPage_NextButton"
+                            Click="NextBtn_Click"
+                            Icon="Forward"
+                            IsEnabled="{x:Bind ViewModel.IsNextButtonEnable, Mode=OneWay}">
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Right" Modifiers="Control" />
+                            </AppBarButton.KeyboardAccelerators>
+                        </AppBarButton>
+                    </CommandBar>
                 </StackPanel>
             </Grid>
         </Grid>

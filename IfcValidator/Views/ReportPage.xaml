@@ -5,7 +5,9 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:IfcValidator.Models"
+    xmlns:model="using:IfcValidator.Core.Models"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:uimodel="using:IfcValidator.Models"
     d:DesignHeight="200"
     d:DesignWidth="700"
     mc:Ignorable="d">
@@ -15,7 +17,72 @@
                 <ResourceDictionary Source="ms-appx:///Styles/InputPage.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/ValidatorPage.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <DataTemplate x:Key="ReportTemplate" x:DataType="models:ReportCard">
+            <DataTemplate x:Key="ClassTemplate" x:DataType="model:NodeItem">
+                <muxc:TreeViewItem
+                    AutomationProperties.Name="{x:Bind Name}"
+                    IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                    IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
+                    ItemsSource="{x:Bind Children, Mode=TwoWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon
+                            Margin="0,0,10,0"
+                            Foreground="{StaticResource SecondaryColor}"
+                            Style="{StaticResource SymbolIconStyle}"
+                            Symbol="Library" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{StaticResource SecondaryColor}"
+                            Text="{x:Bind Name, Mode=OneWay}" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Text="{x:Bind ExistCount, Mode=OneWay, Converter={StaticResource ExistCountToString}}" />
+                    </StackPanel>
+                </muxc:TreeViewItem>
+            </DataTemplate>
+            <DataTemplate x:Key="PropSetTemplate" x:DataType="model:NodeItem">
+                <muxc:TreeViewItem
+                    AutomationProperties.Name="{x:Bind Name}"
+                    IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                    IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
+                    ItemsSource="{x:Bind Children, Mode=TwoWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon
+                            Margin="0,0,10,0"
+                            Foreground="{StaticResource SecondaryColor}"
+                            Style="{StaticResource SymbolIconStyle}"
+                            Symbol="Link" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{StaticResource SecondaryColor}"
+                            Text="{x:Bind Name}" />
+                    </StackPanel>
+                </muxc:TreeViewItem>
+            </DataTemplate>
+            <DataTemplate x:Key="PropTemplate" x:DataType="model:NodeItem">
+                <muxc:TreeViewItem AutomationProperties.Name="{x:Bind Name}" IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon
+                            Margin="0,0,10,0"
+                            Foreground="{StaticResource SecondaryColor}"
+                            Style="{StaticResource SymbolIconStyle}"
+                            Symbol="Attach" />
+                        <TextBlock Foreground="{StaticResource SecondaryColor}" Text="{x:Bind Name, Mode=OneWay}" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Text="{x:Bind ExistCount, Mode=OneWay, Converter={StaticResource ExistCountToString}}" />
+                    </StackPanel>
+                </muxc:TreeViewItem>
+            </DataTemplate>
+            <uimodel:NodeTemplateSelector
+                x:Key="NodeTemplateSelector"
+                ClassTemplate="{StaticResource ClassTemplate}"
+                PropSetTemplate="{StaticResource PropSetTemplate}"
+                PropTemplate="{StaticResource PropTemplate}" />
+            <DataTemplate x:Key="ReportTemplate" x:DataType="uimodel:ReportCard">
                 <Grid
                     Padding="{StaticResource SmallLeftTopRightBottomMargin}"
                     Background="{StaticResource SystemControlAcrylicElementBrush}"
@@ -92,36 +159,82 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                x:Uid="Tool_ReportTitle"
-                Grid.Column="0"
-                Style="{StaticResource ValidatorFeildTitle}" />
-        </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="12" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <controls:AdaptiveGridView
-                Grid.Column="0"
-                Margin="0,10"
-                DesiredWidth="400"
-                ItemTemplate="{StaticResource ReportTemplate}"
-                ItemsSource="{x:Bind ViewModel.Reports}"
-                SelectionMode="Single"
-                StretchContentForSingleRow="False">
-                <GridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem">
-                        <Setter Property="Margin" Value="0,0,10,10" />
-                    </Style>
-                </GridView.ItemContainerStyle>
-            </controls:AdaptiveGridView>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    x:Uid="Tool_ReportTitle"
+                    Grid.Row="0"
+                    Style="{StaticResource ValidatorFeildTitle}" />
+                <controls:AdaptiveGridView
+                    x:Name="reportList"
+                    Grid.Row="1"
+                    Margin="0,10"
+                    DesiredWidth="400"
+                    IsItemClickEnabled="true"
+                    ItemClick="reportList_ItemClicked"
+                    ItemTemplate="{StaticResource ReportTemplate}"
+                    ItemsSource="{x:Bind ViewModel.Reports, Mode=OneWay}"
+                    SelectionMode="Single"
+                    StretchContentForSingleRow="False">
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="0,0,10,10" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                </controls:AdaptiveGridView>
+                <StackPanel Grid.Row="2">
+                    <HyperlinkButton x:Uid="Link_bSDD" Style="{StaticResource LinkInfo}" />
+                    <HyperlinkButton x:Uid="Link_yousheng" Style="{StaticResource LinkInfo}" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource ValidatorFeildTitle}"
+                        Text="{x:Bind ViewModel.ReportTitle, Mode=TwoWay}" />
+                    <CommandBar
+                        Width="Auto"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        DefaultLabelPosition="Right"
+                        IsOpen="False">
+                        <AppBarButton
+                            x:Uid="Tool_SaveButton"
+                            Click="SaveButton_Click"
+                            Icon="Save">
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="S" Modifiers="Control" />
+                            </AppBarButton.KeyboardAccelerators>
+                        </AppBarButton>
+                    </CommandBar>
+                </Grid>
+                <muxc:TreeView
+                    x:Name="detailTreeView"
+                    Grid.Row="1"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    CanReorderItems="False"
+                    ItemTemplateSelector="{StaticResource NodeTemplateSelector}"
+                    ItemsSource="{x:Bind ViewModel.DetailNodes, Mode=OneWay}"
+                    SelectionMode="None" />
+            </Grid>
         </Grid>
     </Grid>
 

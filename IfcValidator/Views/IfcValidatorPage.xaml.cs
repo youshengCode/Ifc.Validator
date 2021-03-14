@@ -33,10 +33,10 @@ namespace IfcValidator.Views
                 case 1:
                     if (classificationPage.ViewModel.HasSelection)
                     {
-                        StepControl.Content = new StepUserControl(ViewModel.MoveSteps());
                         propertyPage.ViewModel.GetAllProperties(classificationPage.ViewModel.SelectedClasses);
                         propertyPage.UpdateSelection();
                         Workspace1.Content = propertyPage;
+                        StepControl.Content = new StepUserControl(ViewModel.MoveSteps());
                     }
                     else
                         NoticeShow(ResourceExtensions.GetLocalized("ValidatorPage_Notice_NoClasses"));
@@ -44,9 +44,9 @@ namespace IfcValidator.Views
                 case 2:
                     if (propertyPage.ViewModel.HasSelection)
                     {
-                        StepControl.Content = new StepUserControl(ViewModel.MoveSteps());
                         LocalConfig.SaveConfigFile(propertyPage.ViewModel.SelectedClasses);
                         Workspace1.Content = inputFilePage;
+                        StepControl.Content = new StepUserControl(ViewModel.MoveSteps());
                     }
                     else
                         NoticeShow(ResourceExtensions.GetLocalized("ValidatorPage_Notice_NoProps"));
@@ -72,16 +72,16 @@ namespace IfcValidator.Views
             switch (step)
             {
                 case 2:
-                    StepControl.Content = new StepUserControl(ViewModel.MoveSteps(false));
                     Workspace1.Content = classificationPage;
+                    StepControl.Content = new StepUserControl(ViewModel.MoveSteps(false));
                     break;
                 case 3:
-                    StepControl.Content = new StepUserControl(ViewModel.MoveSteps(false));
                     Workspace1.Content = propertyPage;
+                    StepControl.Content = new StepUserControl(ViewModel.MoveSteps(false));
                     break;
                 case 4:
-                    StepControl.Content = new StepUserControl(ViewModel.MoveSteps(false));
                     Workspace1.Content = inputFilePage;
+                    StepControl.Content = new StepUserControl(ViewModel.MoveSteps(false));
                     break;
                 default:
                     break;

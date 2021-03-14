@@ -156,8 +156,8 @@
   <data name="ClassificationPage_NoResult" xml:space="preserve">
     <value>No result.</value>
   </data>
-  <data name="ClassificationPage_RemoveButton.Content" xml:space="preserve">
-    <value>Remove Selected</value>
+  <data name="ClassificationPage_RemoveButton.Label" xml:space="preserve">
+    <value>Delete</value>
   </data>
   <data name="ClassificationPage_SearchBox.PlaceholderText" xml:space="preserve">
     <value>Search...</value>
@@ -201,11 +201,11 @@
   <data name="Tool_InputTitle.Text" xml:space="preserve">
     <value>Input file</value>
   </data>
-  <data name="ValidatorPage_LastButton.Content" xml:space="preserve">
-    <value>&lt; Last</value>
+  <data name="ValidatorPage_LastButton.Label" xml:space="preserve">
+    <value>Last</value>
   </data>
-  <data name="ValidatorPage_NextButton.Content" xml:space="preserve">
-    <value>Next &gt;</value>
+  <data name="ValidatorPage_NextButton.Label" xml:space="preserve">
+    <value>Next</value>
   </data>
   <data name="ValidatorPage_Notice_NoClasses" xml:space="preserve">
     <value>No classification selected.</value>
@@ -229,9 +229,9 @@
     <value>Report</value>
   </data>
   <data name="PropertyInfo.Text" xml:space="preserve">
-    <value>*If you are not in the IFC domain, please notice that only those classification with a Related tag can be verified in an IFC file.</value>
+    <value>*For the non-IFC domain, only the classification with a Related tag and a defined PropertySet could be verified in an IFC file.</value>
   </data>
-  <data name="ClassificationPage_RemoveAllButton.Content" xml:space="preserve">
+  <data name="ClassificationPage_RemoveAllButton.Label" xml:space="preserve">
     <value>Clear All</value>
   </data>
   <data name="ReportInfo_EntityFound" xml:space="preserve">
@@ -245,5 +245,20 @@
   </data>
   <data name="Tool_ReportTitle.Text" xml:space="preserve">
     <value>Report</value>
+  </data>
+  <data name="Link_bSDD.Content" xml:space="preserve">
+    <value>Powered by: buildingSMART Data Dictionary - bSDD OpenAPI</value>
+  </data>
+  <data name="Link_bSDD.NavigateUri" xml:space="preserve">
+    <value>https://github.com/buildingSMART/bSDD</value>
+  </data>
+  <data name="Link_yousheng.Content" xml:space="preserve">
+    <value>Design by: Yousheng</value>
+  </data>
+  <data name="Link_yousheng.NavigateUri" xml:space="preserve">
+    <value>https://bimmars.com/</value>
+  </data>
+  <data name="Tool_SaveButton.Label" xml:space="preserve">
+    <value>Save</value>
   </data>
 </root>

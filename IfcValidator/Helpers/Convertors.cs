@@ -273,4 +273,28 @@ namespace IfcValidator.Helpers
             }
         }
     }
+
+    public class ExistCountToString : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if ((int)value > 0)
+            {
+                return value.ToString();
+            }
+            else
+            {
+                return "-";
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            if (value.ToString() == "-")
+                return 0;
+            else
+                return (int)value;
+        }
+    }
+
 }

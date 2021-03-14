@@ -19,19 +19,19 @@ namespace IfcValidator.ViewModels
         public List<Step> Steps
         {
             get { return _steps; }
-            set { _steps = value; }
+            set { _steps = value; NotifyOfPropertyChange(() => Steps); }
         }
-        private bool _showLastButton = false;
-        public bool ShowLastButton
+        private bool _isLastButtonEnable = false;
+        public bool IsLastButtonEnable
         {
-            get { return _showLastButton; }
-            set { _showLastButton = value; NotifyOfPropertyChange(() => ShowLastButton); }
+            get { return _isLastButtonEnable; }
+            set { _isLastButtonEnable = value; NotifyOfPropertyChange(() => IsLastButtonEnable); }
         }
-        private bool _showNextButton = false;
-        public bool ShowNextButton
+        private bool _isNextButtonEnable = false;
+        public bool IsNextButtonEnable
         {
-            get { return _showNextButton; }
-            set { _showNextButton = value; NotifyOfPropertyChange(() => ShowNextButton); }
+            get { return _isNextButtonEnable; }
+            set { _isNextButtonEnable = value; NotifyOfPropertyChange(() => IsNextButtonEnable); }
         }
         #endregion
 
@@ -43,24 +43,24 @@ namespace IfcValidator.ViewModels
         private void LoadSteps()
         {
             _steps = StepServices.GenerateIfcValidatorSteps();
-            CheckVisibilityForLastAndNextButton();
+            CheckEnable();
         }
-        private void CheckVisibilityForLastAndNextButton()
+        private void CheckEnable()
         {
             if (StepServices.IsReacheLimit(_steps, true))
             {
-                ShowLastButton = true;
-                ShowNextButton = false;
+                IsLastButtonEnable = true;
+                IsNextButtonEnable = false;
             }
             else if (StepServices.IsReacheLimit(_steps, false))
             {
-                ShowLastButton = false;
-                ShowNextButton = true;
+                IsLastButtonEnable = false;
+                IsNextButtonEnable = true;
             }
             else
             {
-                ShowLastButton = true;
-                ShowNextButton = true;
+                IsLastButtonEnable = true;
+                IsNextButtonEnable = true;
             }
         }
         #endregion
@@ -68,7 +68,7 @@ namespace IfcValidator.ViewModels
         public List<Step> MoveSteps(bool isNext = true)
         {
             _steps = StepServices.MoveStep(_steps, isNext);
-            CheckVisibilityForLastAndNextButton();
+            CheckEnable();
             return Steps;
         }
     }

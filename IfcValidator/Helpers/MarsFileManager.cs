@@ -170,6 +170,7 @@ namespace IfcValidator.Helpers
         }
         #endregion
 
+        #region Serialization
         public static void Dump(object obj)
         {
             Debug.WriteLine(JsonConvert.SerializeObject(obj));
@@ -203,5 +204,6 @@ namespace IfcValidator.Helpers
             { return true; }
             else { return false; }
         }
+        #endregion
     }
 }

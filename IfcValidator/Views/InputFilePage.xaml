@@ -98,7 +98,7 @@
                                 <AppBarButton
                                     x:Uid="Tool_InputClearButton"
                                     Click="ClearAllFiles_Click"
-                                    Icon="Redo" />
+                                    Icon="Undo" />
                             </CommandBar>
                         </StackPanel>
 

@@ -1,4 +1,4 @@
-[![UWP by UI]
+[UWP by UI]
 
 # Ifc.Validator
 A UWP app for the validation of IFC files. 

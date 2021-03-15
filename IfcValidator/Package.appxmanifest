@@ -8,15 +8,15 @@
   IgnorableNamespaces="uap mp genTemplate">
 
   <Identity
-    Name="9038B873-14D7-4923-B0AD-9BB45027B4EE"
-    Publisher="CN=yoush"
+    Name="48598BIMMars.IFCValidator"
+    Publisher="CN=A62014A7-3693-4B65-AC91-983365F29B56"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="9038B873-14D7-4923-B0AD-9BB45027B4EE" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="2411d17d-2104-4209-a094-a00ba437d395" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>IfcValidator</DisplayName>
-    <PublisherDisplayName>yoush</PublisherDisplayName>
+    <DisplayName>IFC Validator</DisplayName>
+    <PublisherDisplayName>BIMMars</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

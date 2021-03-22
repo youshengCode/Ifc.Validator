@@ -5,6 +5,7 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/windowsTemplateStudio"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"  
   IgnorableNamespaces="uap mp genTemplate">
 
   <Identity
@@ -50,7 +51,15 @@
       </uap:VisualElements>
 
       <Extensions>
-      </Extensions>
+		  <uap5:Extension
+			Category="windows.appExecutionAlias"
+			Executable="IfcValidator.exe"
+			EntryPoint="IfcValidator.App">
+			  <uap5:AppExecutionAlias>
+				  <uap5:ExecutionAlias Alias="IfcValidator.exe" />
+			  </uap5:AppExecutionAlias>
+		  </uap5:Extension>
+	  </Extensions>
     </Application>
   </Applications>
 

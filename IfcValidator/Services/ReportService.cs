@@ -19,6 +19,7 @@ namespace IfcValidator.Services
         public static List<ReportCard> LoadReport(BindableCollection<UserFile> InputFiles, BindableCollection<NodeItem> selectedNodes)
         {
             List<ReportCard> reports = new List<ReportCard>();
+            Debug.WriteLine(ApplicationData.Current.LocalCacheFolder.Path);
             foreach (var file in InputFiles)
             {
                 // Recreate the list for avoid the notifychange of NodeItem

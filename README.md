@@ -7,12 +7,6 @@ Powered by [buildingSMART Data Dictionary - bSDD OpenAPI](https://github.com/bui
 
 ![alt text](https://github.com/youshengCode/Ifc.Validator/blob/master/Images/ValidatorLogo.png)
 
-## Screenshots
- 
-![alt text](https://github.com/youshengCode/Ifc.Validator/blob/master/Images/step2.png)
-
-![alt text](https://github.com/youshengCode/Ifc.Validator/blob/master/Images/step4.png)
-
 ## Background
 
 For a long time, I have been searching something to do the quality control for IFC files and the validation to verify IFC files by a way of algorithm other than a human visual check. This idea starts with my post in October 2020, [To be standardized: extra efforts for entering the BIM processes. – BIM Mars](https://bimmars.com/to-be-standardized-extra-efforts-for-entering-the-bim-processes/).
@@ -31,6 +25,12 @@ More information: [IFC Validator, a simple tool for IFC quality control – BIM 
 - Sub-entity support
 - Multi-thread support
 - Multi-language support
+
+## Screenshots
+ 
+![alt text](https://github.com/youshengCode/Ifc.Validator/blob/master/Images/step2.png)
+
+![alt text](https://github.com/youshengCode/Ifc.Validator/blob/master/Images/step4.png)
 
 ## License
 

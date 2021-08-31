@@ -1,3 +1,7 @@
+## The current project has been archived.
+
+New version of IFC Validator will be included in [IfcToolbox](https://github.com/youshengCode/IfcToolbox).
+
 # IFC Validator
 
 **Ifc.Validator** is a UWP project to analyze the property presence in IFC files to check whether the IFC is fill the requirements.
